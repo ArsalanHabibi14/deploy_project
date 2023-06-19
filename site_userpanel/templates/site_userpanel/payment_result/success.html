@@ -1,0 +1,50 @@
+{% extends 'shared/base.html' %}
+
+{% load poll_extras %}
+{% load thumbnail %}
+
+{% block content %}
+
+    <main class="page-content">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-xl-12 col-lg-8 col-md-8 mb-md-0 mb-3">
+                    <div class="checkout-section shadow-around">
+                        <div class="checkout-step">
+                             <ul>
+                                    <li class="active">
+                                        <a href="{% url 'user_basket_page' %}"><span>سبد خرید</span></a>
+                                    </li>
+                                    <li class="active">
+                                        <span>انتخاب آدرس</span>
+                                    </li>
+                                    <li class="active">
+                                        <span>پرداخت نهایی و ثبت سفارش</span>
+                                    </li>
+                                </ul>
+                        </div>
+                        <div class="checkout-message">
+                            <div class="checkout-message-success mb-3">
+                                <div class="icon-message success-icon">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                سفارش <span class="order-code">DKC-{{ order.sku_id }}</span> با موفقیت پرداخت و ثبت
+                                گردید.
+
+                            </div>
+                            <div class="text-center text-muted">
+                                <p class="mb-4">
+                                    پرداخت با موفقیت انجام و ثبت شد. از اینکه ما را برای خرید انتخاب کردید از
+                                    شما سپاسگزاریم.
+                                </p>
+                                <a href="{% url 'userpanel_orders_detail' slug=order.slug %}" class="align-items-center justify-content-center px-4 py-2 btn btn-primary">پیگیری
+                                    سفارش <i class="fad fa-clipboard-list mr-3"></i></a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+
+{% load poll_extras %}
+{% load thumbnail %}
+{% block title %}
+ بازدید های اخیر من | {{ setting.site_name }}
+{% endblock %}
+{% block content %}
+    <main class="page-content">
+        <div class="container">
+            <div class="row mb-5">
+                {% render_partial 'site_userpanel.views.userpanel_menu_component' %}
+
+                <div class="col-lg-9 col-md-8">
+                    <div class="section-title mb-2">
+                        لیست بازدید های اخیر
+                    </div>
+
+                    {% if object_list %}
+
+
+                        <div class="shadow-around">
+ <div class="listing-items row">
+
+        {% for recent in object_list %}
+
+            <div class="col-lg-3-cs col-6 px-0 ">
+                {% include 'includes/product_item_partial.html' with product=recent.product %}
+
+            </div>
+
+
+        {% endfor %}
+    </div>
+                        </div>
+
+                    {% else %}
+                        <div class="empty-box">
+                            <div class="icon">
+                                <i class="fal fa-times-circle"></i>
+                            </div>
+                            <div class="message">
+                                <p>محصولی برای نمایش وجود نداره!</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+            </div>
+        </div>
+        </div>
+    </main>
+    <!-- end Page Content -->
+{% endblock %}

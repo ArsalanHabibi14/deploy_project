@@ -1,0 +1,163 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+
+{% load poll_extras %}
+{% load thumbnail %}
+{% block title %}
+لیست درخواست های مرجوعی | {{ setting.site_name }}
+{% endblock %}
+{% block content %}
+    <main class="page-content">
+        <div class="container">
+            <div class="row mb-5">
+                {% render_partial 'site_userpanel.views.userpanel_menu_component' %}
+                <div class="col-lg-9 col-md-8">
+
+
+                    {% if object_list %}
+<div class="row mb-4">
+                        <div class="col-12">
+                            <section class="shadow-around p-3">
+                                <div class="row">
+                                    <div class="col-12">
+                                        {% for wholesale in object_list %}
+
+                                            <div class="checkout-section shadow-around p-2 mb-2">
+                                                <div class="checkout-section-content">
+                                                    <div class="cart-items">
+                                                        <div class="mb-2">
+                                                            <span class="text-muted">شناسه تماس :</span>
+                                                            <span class="font-weight-bold">{{ wholesale.id }}#</span>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <span class="text-muted">نوع برنج :</span>
+                                                            <span class="font-weight-bold">{{ wholesale.rice }}</span>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <span class="text-muted">مقدار به تن :</span>
+                                                            <span class="font-weight-bold">{{ wholesale.amount }}</span>
+                                                        </div>
+                                                        <div class="mb-2">
+                                                            <span class="text-muted">تاریخ درخواست :</span>
+                                                            <span class="font-weight-bold ">{{ wholesale.created_date|show_jalali_date }}</span>
+                                                        </div>
+                                                        {% if wholesale.description %}
+                                                            <div class="mb-2 form-element-row">
+                                                                <span class="text-muted d-block">متن توضیحات شما :</span>
+                                                                <textarea name="address" cols="5" rows="5"
+                                                                          class="input-element"
+                                                                          id="edit-address-input" disabled>
+                                                                {{ wholesale.description }}
+                                                            </textarea>
+
+                                                            </div>
+                                                        {% endif %}
+                                                        <div class="mb-2">
+                                                            <span class="text-muted">وضعیت :</span>
+                                                            <span class="font-weight-bold text-{% if wholesale.admin_answer %}success{% else %}danger{% endif %}">
+{% if wholesale.admin_answer %}پاسخ داده شده{% else %}پاسخ داده نشده{% endif %}
+
+
+                                                        </span>
+                                                        </div>
+                                                        {% if wholesale.admin_answer %}
+                                                            <a type="button" class="btn-main"
+                                                               data-toggle="modal"
+                                                               data-target="#showcontactdetail{{ wholesale.id }}">
+                                                                مشاهده جزئیات
+                                                            </a>
+                                                        {% endif %}
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="showcontactdetail{{ wholesale.id }}" tabindex="-1"
+                                                 aria-labelledby="showcontactdetaillabel{{ wholesale.id }}"
+                                                 aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="addAddressModalLabel">جزئیات
+                                                                درخواست خرید عمده #{{ wholesale.id }}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form>
+                                                                <div class="row">
+                                                                    <div class="col-12 mb-3">
+                                                                        <div class="text-sm text-muted mb-1">پاسخ
+                                                                            پشتیبان:
+                                                                        </div>
+                                                                        <div class="text-dark font-weight-bold">
+                                                                            <div class="form-element-row mb-0">
+                                        <textarea name="address" cols="5" rows="10"
+                                                  class="input-element"
+                                                  id="edit-address-input" disabled>{{ wholesale.admin_answer }}</textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                        {% else %}
+                        <div class="empty-box">
+
+                        <div class="icon">
+                                                    <i class="fal fa-times-circle"></i>
+                                                </div>
+                                                <div class="message">
+                                                    <p>درخواستی برای نمایش وجود نداره!</p>
+                                                </div>
+                                            </div>
+                    {% endif %}
+                                            {% if paginator.num_pages >= 2 %}
+
+                                <div class="col-12 px-0">
+                                    <div class="pagination">
+                                        {% if page_obj.has_previous %}
+                                            <a type="button" href="?page={{ page_obj.previous_page_number }}"
+                                               class="prev">
+                                                <i class="far fa-arrow-from-left"></i></a>
+                                        {% endif %}
+                                        {% for pagenumber in paginator.page_range %}
+
+                                            <a href="?page={{ pagenumber }}"
+                                               class="{% if page_obj.number == pagenumber %}current{% endif %}">{{ pagenumber }}</a>
+                                        {% endfor %}
+
+
+                                        {% if page_obj.has_next %}
+                                            <a type="button" href="?page={{ page_obj.next_page_number }}"
+                                               class="prev">
+                                                <i class="far fa-arrow-to-left"></i></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- end Page Content -->
+
+
+{% endblock %}

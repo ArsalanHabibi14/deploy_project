@@ -1,0 +1,357 @@
+<!-- Page Header -->
+{% load poll_extras %}
+<header class="page-header">
+
+    <div class="container">
+        <div class="bottom-page-header">
+            <div class="d-flex align-items-center">
+                <div class="site-logo">
+                    <a href="{% url 'home_page' %}">
+                        <img src="{{ setting.site_logo.url }}" alt="{{ setting.site_name }}">
+                    </a>
+                </div>
+
+                {% include 'shared/search_component.html' %}
+
+            </div>
+            <div class="user-items">
+                <div class="user-item text-center contact-us-header">
+                    با ما تماس بگیرید
+                    <br>
+                    <a href="tel:{{ setting.site_phone }}" class="text-center contact-us-header-phone">
+                        {{ setting.site_phone }}
+                    </a>
+                </div>
+
+                {% if request.user.is_authenticated %}
+
+                    <div class="user-item cart-list basket-content">
+
+                        {% include 'shared/content/basket_content.html' %}
+
+
+                    </div>
+                {% else %}
+                    <div class="user-item cart-list basket-content">
+                        <a href="#">
+                            <i class="fal fa-shopping-cart"></i>
+                        </a>
+                        <ul>
+                            <li class="cart-items">
+                            </li>
+                            <li class="cart-footer d-flex align-items-center justify-content-between">
+                                    <span class="d-flex flex-column">
+                                        <span>ابتدا وارد شوید</span>
+                                    </span>
+                                <span class="d-block text-center px-2">
+                                        <a href="{% url 'login_page' %}" class="btn-cart">
+                                            ورود / ثبت نام
+                                        </a>
+                                    </span>
+                            </li>
+                        </ul>
+                    </div>
+                {% endif %}
+
+
+                <div class="user-item account">
+                    {% if request.user.is_authenticated %}
+                        <a type="button">
+                            <i class="fal fa-user-circle header-user-icon"></i>
+                        </a>
+                        <ul class="dropdown--wrapper">
+                            <li class="header-profile-dropdown-account-container">
+                                <a type="button" class="d-block">
+                                        <span class="header-profile-dropdown-user">
+                                            <span class="header-profile-dropdown-user-img">
+                                                <img src="{{ request.user.avatar.url }}" class="bi-50p">
+                                            </span>
+                                            <span class="header-profile-dropdown-user-info">
+                                                <p class="header-profile-dropdown-user-name ">
+                                                    {% if request.user.get_full_name %}
+                                                        {{ request.user.get_full_name }}
+                                                    {% else %}
+                                                        بدون نام
+                                                    {% endif %}
+                                                </p>
+                                            </span>
+                                        </span>
+                                </a>
+                            </li>
+                            {% if request.user.is_superuser %}
+
+                                <li>
+                                    <a href="/admin">
+                                        <i class="fal fa-user-crown"></i>
+                                        پنل ادمین
+                                    </a>
+                                </li>
+                                <hr>
+                            {% endif %}
+
+                            <li>
+                                <a href="{% url 'userpanel_dashboard' %}">
+                                    <i class="fal fa-user-alt"></i>
+
+                                    مشاهده حساب کاربری
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'userpanel_orders' %}">
+                                    <i class="fal fa-shopping-cart"></i>
+
+                                    سفارش های من
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'userpanel_bookmarks' %}">
+                                    <i class="fal fa-heart"></i>
+
+                                    علاقه‌مندی‌های من
+
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'userpanel_edit_password' %}">
+                                    <i class="fal fa-lock"></i>
+
+                                    تغییر رمز عبور
+
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'logout_page' %}">
+
+                                    <i class="fal fa-door-open"></i>
+
+                                    خروج
+
+                                </a>
+
+                            </li>
+                        </ul>
+                    {% else %}
+                        <a href="{% url 'login_page' %}" class="btn-auth">
+                            <i class="fal fa-user-circle"></i>
+                            ورود و عضویت
+                        </a>
+
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        <nav class="nav-wrapper">
+            <ul>
+                <li class="category-list">
+                    <a type="button"><i class="fal fa-bars"></i>دسته بندی کالاها</a>
+                    <ul>
+                        {#                        {% for cat in category %}#}
+                        {##}
+                        {#                            <li>#}
+                        {#                                <a href="{{ cat.get_absolute_url }}">{{ cat.title }}</a>#}
+                        {##}
+                        {#                                <ul class="row">#}
+                        {#                                    {% for subcat in cat.productsubcategory_set.all %}#}
+                        {##}
+                        {#                                        <li class="col-3">#}
+                        {#                                            <a href="{{ subcat.get_absolute_url }}">{{ subcat.title }}</a>#}
+                        {##}
+                        {##}
+                        {#                                            <ul>#}
+                        {#                                                {% for type in subcat.producttype_set.all %}#}
+                        {##}
+                        {#                                                    <li><a href="{{ type.get_absolute_url }}">{{ type.title }}</a></li>#}
+                        {#                                                {% endfor %}#}
+                        {##}
+                        {#                                            </ul>#}
+                        {##}
+                        {#                                        </li>#}
+                        {#                                    {% endfor %}#}
+                        {#                                </ul>#}
+                        {#                            </li>#}
+                        {#                        {% endfor %}#}
+                        {% for cat in category %}
+
+                            <li>
+                                <a href="{{ cat.get_absolute_url }}">{{ cat.title }}</a>
+
+                                <ul class="row">
+                                    {% for subcat in cat.productsubcategory_set.all %}
+
+                                        <li class="col-3">
+                                            <a href="{{ subcat.get_absolute_url }}">{{ subcat.title }}</a>
+
+
+                                            <ul>
+                                                {% for type in subcat.producttype_set.all %}
+                                                    {% for product in type.product_set.all %}
+                                                        <li>
+                                                            <a href="{{ product.get_absolute_url }}">{{ product.title_ir }}</a>
+                                                        </li>
+
+                                                    {% endfor %}
+
+
+                                                {% endfor %}
+
+                                            </ul>
+
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+
+                    </ul>
+                </li>
+                <li >
+                    <a href="{% url 'wholesale_page' %}"><i class="fal fa-apple-crate text-warning"></i>خرید عمده
+                        برنج</a>
+                </li>
+
+
+
+                <li>
+                    <a href="{% url 'blog_list' %}"><i class="fal fa-book-reader text-success"></i>وبلاگ</a>
+                </li>
+
+
+
+
+                <li class="dropdown--list">
+                            <a type="button"><i class="fal fa-plus-square text-primary"></i> سایر <span
+                            class="text-success"> ... </span> </a>
+                            <ul class="main-dropdown">
+                                <li><a href="{% url 'contact_page' %}">تماس با ما</a></li>
+                                        <li><a href="{% url 'faq_page' %}">سوالات متداول</a></li>
+                                        <li><a href="{% url 'about_page' %}">درباره ما</a></li>
+                            </ul>
+                        </li>
+
+
+            </ul>
+        </nav>
+    </div>
+</header>
+        <div class="page-header-overlay"></div>
+
+<!-- header responsive -->
+<div class="header-responsive fixed--header-top">
+    <div class="header-top">
+        <div class="side-navigation-wrapper">
+            <button class="btn-toggle-side-navigation"><i class="far fa-bars"></i></button>
+            <div class="side-navigation">
+                <div class="site-logo">
+                    <a href="{% url 'home_page' %}">
+                        <img src="{{ setting.site_logo.url }}" alt="{{ setting.site_name }}">
+                    </a>
+                </div>
+                <div class="divider"></div>
+                <ul class="not-list-children">
+
+                    {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'userpanel_dashboard' %}"><i class="fal fa-user"></i>حساب کاربری</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login_page' %}"><i class="fal fa-user-lock"></i>ورود / ثبت نام</a></li>
+
+                    {% endif %}
+                </ul>
+                <div class="divider"></div>
+                <ul class="category-list">
+                    <li class="has-children">
+                        <a type="button"><i class="fal fa-bars"></i> دسته بندی کالا ها</a>
+                        <ul>
+                            {% for cat in category %}
+
+                                <li class="has-children">
+                                    <a href="{{ cat.get_absolute_url }}">{{ cat.title }}</a>
+                                    <ul>
+                                        <li><a href="{{ cat.get_absolute_url }}" class="text-primary">همه
+                                            دسته‌بندی‌های {{ cat.title }}</a>
+                                        </li>
+                                        {% for subcat in cat.productsubcategory_set.all %}
+
+                                            <li class="{% if subcat.producttype_set.all %}has-children{% endif %}">
+                                                <a href="{{ subcat.get_absolute_url }}">{{ subcat.title }}</a>
+                                                <ul>
+                                                    <li><a href="{{ subcat.get_absolute_url }}" class="text-primary">همه
+                                                        محصولات {{ subcat.title }}</a>
+                                                    </li>
+                                                    {% for type in subcat.producttype_set.all %}
+
+                                                        {% for product in type.product_set.all %}
+                                                            <li>
+                                                                <a href="{{ product.get_absolute_url }}">{{ product.title_ir }}</a>
+                                                            </li>
+
+                                                        {% endfor %}
+                                                    {% endfor %}
+
+                                                </ul>
+                                            </li>
+                                        {% endfor %}
+
+{#                                         <li>#}
+{#                                             <a href="{{ type.get_absolute_url }}">{{ type.title }}</a>#}
+{#                                          </li>#}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li><a href="{% url 'wholesale_page' %}"><i class="fal fa-apple-crate text-warning"></i> خرید عمده
+                        برنج</a></li>
+
+{#                    <li><a href="{% url 'whyus_page' %}"><i class="fal fa-shield-check text-success"></i> چرا راکافا#}
+{#                    </a></li>#}
+
+
+                    <li class="has-children">
+                        <a href="#"><i class="fal fa-plus-square text-primary"></i> سایر ...</a>
+                        <ul>
+                            <li><a href="{% url 'contact_page' %}">تماس با ما</a></li>
+                            <li><a href="{% url 'faq_page' %}">سوالات متداول</a></li>
+                            <li><a href="{% url 'about_page' %}">درباره ما</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="overlay-side-navigation"></div>
+        </div>
+        <div class="site-logo">
+            <a href="{% url 'home_page' %}">
+                <img src="{{ setting.site_logo.url }}" alt="{{ setting.site_name }}">
+            </a>
+        </div>
+        <div class="header-tools">
+            <div class="cart-side">
+                <a class="btn-toggle-cart-side ml-0 m-basket-content-count" type="button">
+                    {% include 'shared/content/m_basket_content_count.html' %}
+                </a>
+                <div class="cart-side-content">
+                    <ul class="m-basket-content">
+                        {% include 'shared/content/m_basket_content.html' %}
+                    </ul>
+                </div>
+
+                <div class="overlay-cart-side"></div>
+            </div>
+        </div>
+    </div>
+    <div class="header-bottom">
+        {% include 'shared/search_component.html' %}
+
+        <div class="header-tools">
+            <a href="{% if request.user.is_authenticated %}
+{% url 'userpanel_dashboard' %}
+{% else %}
+{% url 'login_page' %}
+            {% endif %}">
+                <i class="far fa-user-circle"></i>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- end header responsive -->
+<!-- end Page Header -->

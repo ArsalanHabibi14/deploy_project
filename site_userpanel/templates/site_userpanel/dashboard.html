@@ -1,0 +1,155 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+
+{% load poll_extras %}
+{% load thumbnail %}
+{% block title %}
+پیشخوان حساب کاربری | {{ setting.site_name }}
+{% endblock %}
+{% block content %}
+ <main class="page-content">
+            <div class="container">
+                <div class="row mb-5">
+                    {% render_partial 'site_userpanel.views.userpanel_menu_component' %}
+
+                    <div class="col-lg-9 col-md-8">
+                        <div class="row mb-4">
+                            <div class="col-lg-6 mb-lg-0 mb-3">
+                                <div class="section-title mb-2">
+                                    اطلاعات شخصی
+                                </div>
+                                <section class="shadow-around p-3">
+                                    <div class="row">
+                                        <div class="col-lg-6 mb-4">
+                                            <div class="text-sm text-muted">نام و نام خانوادگی:</div>
+                                            <div class="text-dark font-weight-bold">
+                                                {% if request.user.get_full_name %}
+                                                {{ request.user.get_full_name }}
+                                                    {% else %}
+                                                    -
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    <div class="col-lg-6 mb-4">
+                                            <div class="text-sm text-muted">کد ملی:</div>
+                                            <div class="text-dark font-weight-bold">
+                                                {% if request.user.national_code %}
+                                                {{ request.user.national_code }}
+                                                    {% else %}
+                                                    -
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 mb-4">
+                                            <div class="text-sm text-muted">شماره تلفن همراه:</div>
+                                            <div class="text-dark font-weight-bold">
+                                                {% if request.user.phone %}
+                                                {{ request.user.phone }}
+                                                    {% else %}
+                                                    -
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mb-4">
+                                            <div class="text-sm text-muted">پست الکترونیک:</div>
+                                            <div class="text-dark font-weight-bold">
+                                                {% if request.user.email %}
+                                                {{ request.user.email }}
+                                                    {% else %}
+                                                    -
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="text-center">
+                                                <a href="{% url 'userpanel_edit_profile' %}" class="link--with-border-bottom">
+                                                    <i class="far fa-edit"></i>
+                                                    ویرایش اطلاعات شخصی
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-lg-6 mb-lg-0 mb-3">
+                                <div class="section-title mb-2">
+                                    لیست آخرین علاقه‌مندی‌ها
+                                </div>
+                                <section class="shadow-around p-3 bookmarks-dashboard-ajax">
+{% if bookmarks %}
+        {% include 'site_userpanel/content/user_bookmarks_dashboard_content.html' %}
+
+{% else %}
+    <div class="empty-box">
+                                                <div class="icon">
+                                                    <i class="fal fa-times-circle"></i>
+                                                </div>
+                                                <div class="message">
+                                                    <p>محصولی برای نمایش وجود نداره!</p>
+                                                </div>
+                                            </div>
+{% endif %}
+
+
+                                </section>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="section-title mb-2">
+                                    آخرین سفارش‌ها
+                                </div>
+                                <section class="table--order shadow-around">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>شماره سفارش</th>
+                                                    <th>تاریخ ثبت سفارش</th>
+                                                    <th>مبلغ کل</th>
+                                                    <th>وضعیت</th>
+                                                    <th>جزئیات سفارش</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                        {% for order in orders %}
+
+                                                <tr>
+                                                    <td class="order-code">SKU-{{order.sku_id}}</td>
+                                                    <td>{{order.payment_date|show_jalali_date}}</td>
+                                                    <td>
+                                                        {{ order.calculate_total_price|three_digits_currency }}
+                                                    </td>
+                                                    <td>
+                                                        <div class="text-white bg-{% if order.status == 'canceled' %}danger{% elif order.status == 'delivered' %}success
+{% elif order.status == 'pending' %}yellow{% elif order.status == 'processing' %}blue{% elif order.status == 'sent' %}success{% endif %}">
+                                                        {{ order.get_status_display }}
+                                                    </div>
+                                                    </td>
+                                                    <td class="order-detail-link">
+                                                        <a href="{{order.get_absolute_url}}">
+                                                            <i class="far fa-chevron-left"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="text-center py-3">
+                                        <a href="{% url 'userpanel_orders' %}" class=" align-items-center justify-content-center text-white bg-cs">
+                                            مشاهده همه سفارشات
+                                            <i class="fal fa-arrow-to-left mr-1"></i>
+                                        </a>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- end Page Content -->
+{% endblock %}

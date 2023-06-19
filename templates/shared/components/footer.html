@@ -1,0 +1,195 @@
+<footer class="main-footer">
+    <div class="back-to-top">
+        <div class="back-btn">
+            <i class="far fa-chevron-up icon"></i>
+            <span>برگشت به بالا</span>
+        </div>
+    </div>
+    <div class="container">
+        <div class="services row mb-5">
+            <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
+                <div class="service-item">
+                    <div class="icon-element">
+                        <i class="fal fa-truck"></i>
+
+                    </div>
+
+                    <div class="service-item-body mt-2">
+
+                        <h6> امکان تحویل اکسپرس در تهران
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
+                <div class="service-item">
+                    <div class="icon-element">
+                        <i class="fal fa-user-headset"></i>
+
+                    </div>
+
+                    <div class="service-item-body mt-2">
+
+                        <h6> پشتیبانی ۲۴/۷
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
+                <div class="service-item">
+                    <div class="icon-element">
+                        <i class="fas fa-undo"></i>
+
+                    </div>
+
+                    <div class="service-item-body mt-2">
+
+                        <h6> ضمانت مرجوع تا 10 رو
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-md-0 mb-4">
+                <div class="service-item">
+                    <div class="icon-element">
+                        <i class="fal fa-badge-check"></i>
+                    </div>
+
+                    <div class="service-item-body mt-2">
+
+                        <h6> 100% خالص و دستچین
+                        </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4 col-sm-6">
+                <div class="widget widget-links">
+                    <h2 class="widget-title">دسته بندی کالاها</h2>
+                    <ul class="widget-list">
+                        {% for subcat in subcats %}
+
+                            <li class="widget-list-item">
+                                <a href="{{ subcat.get_absolute_url }}" class="widget-list-link">{{ subcat.title }}</a>
+                            </li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="widget widget-links">
+                    <h2 class="widget-title">تماس با ما</h2>
+                    <ul class="widget-list">
+
+                        <li class="widget-list-item">
+                            آدرس: {{ setting.site_address|safe }}
+                        </li>
+
+                        <li class="widget-list-item">
+                            شماره تماس: {{ setting.site_phone }}
+                        </li>
+                        <li class="widget-list-item">
+                            ایمیل: {{ setting.site_email }}
+                        </li>
+                        <li class="widget-list-item">
+                            ساعت کاری: تمامی روز های هفته
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="widget widget-newsletter">
+                    <h2 class="widget-title">خبرنامه:</h2>
+                    <div class="newsletter">
+                        <form action="" class="newsletterform">
+                            <div class="form-group">
+                                <input type="email" placeholder="آدرس ایمیل خود را وارد نمایید" id="emailsigninput">
+
+                                <button type="button" onclick="SubmitSignEmail()" id="emailsignsubmit">ارسال</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="widget center-on-mobile">
+                    <h2 class="widget-title">
+                        {{ setting.site_name }} را در شبکه‌های اجتماعی دنبال کنید :
+                    </h2>
+                    <div class="social">
+                        <ul>
+                            <li>
+                                <a href="https://instagram.com/{{ setting.site_instagram }}" class="instagram"><i
+                                        class="fab fa-instagram"></i></a>
+                            </li>
+                            <li>
+                                <a href="tel:{{ setting.site_whatsapp }}" class="whatsapp"><i
+                                        class="fab fa-whatsapp"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+
+
+                <div class="col-12 mb-3 ">
+                    <div class="logo-area center-on-mobile">
+                        <a href="{% url 'home_page' %}">
+                            <img src="{{ setting.site_logo.url }}" alt="{{ setting.site_name }}"
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="widget widget-links mb-2">
+                        <ul class="widget-list d-flex flex-wrap justify-content-center justify-content-md-start">
+                            <li class="widget-list-item ml-4">
+                                <a href="{% url 'rules_page' %}" class="widget-list-link">راهنمای خرید و مقررات</a>
+                            </li>
+                            <li class="widget-list-item ml-4">
+                                <a href="{% url 'userpanel_orders' %}" class="widget-list-link">پیگیری سفارش</a>
+                            </li>
+                            <li class="widget-list-item ml-4">
+                                <a href="{% url 'faq_page' %}" class="widget-list-link">سوالات متداول</a>
+                            </li>
+                            <li class="widget-list-item ml-4">
+                                <a href="{% url 'contact_page' %}" class="widget-list-link">تماس با ما</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 text-center">
+
+
+                <div class="col-12 mb-3">
+                    <div class="logo-area ">
+
+                        <a href="{% url 'home_page' %}">
+                            <img src="https://www.p30web.org/wp-content/uploads/2016/12/enamad_icon_text_color_blue_1024-768x768.png"
+                                 alt="{{ setting.site_name }}" class="namad-images">
+                        </a>
+                        <a href="{% url 'home_page' %}">
+                            <img src="https://www.p30web.org/wp-content/uploads/2016/12/enamad_icon_text_color_blue_1024-768x768.png"
+                                 alt="{{ setting.site_name }}" class="namad-images">
+                        </a>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-12">
+                <div class="copy-right" dir="ltr">
+                    <p>{{ setting.site_copyright }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- end Page Footer -->

@@ -1,0 +1,32 @@
+{% extends 'shared/base.html' %}
+
+{% block title %}
+صفحه مورد نظر یافت نشد | راکافا
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+
+        <main class="page-content">
+            <div class="container">
+                <div class="empty-box empty-box--404">
+                    <div class="message mb-5">
+                        <p class="text-muted mb-5">
+                            صفحه‌ای که دنبال آن بودید پیدا نشد!
+                            <img src="/static/images/theme/search.svg" alt="...">
+                        </p>
+                        <div class="form-element-row">
+                            <a href="{% url 'home_page' %}" class="btn-element btn-info-element py-3">
+                                <i class="fad fa-undo"></i>
+                                بازگشت به صفحه اصلی
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pic">
+                        <img src="/static/images/theme/404.svg" alt="404 image">
+                    </div>
+                </div>
+            </div>
+        </main>
+</div>
+{% endblock %}

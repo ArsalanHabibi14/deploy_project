@@ -1,0 +1,49 @@
+{% load render_partial %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه حساب کاربری</title>
+    {% include 'site_userpanel/shared/header_references.html' %}
+</head>
+
+<body style="background-color:#f7f7fc;">
+<div class="bg-close">
+</div>
+
+{% render_partial 'site_userpanel.views.header_component' %}
+
+<div class="content">
+        <section>
+            <div class="bg-gradiant-account">
+                <div class="area-shape-bottom">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 260">
+                        <polygon fill="currentColor" points="0,257 0,260 3000,260 3000,0"></polygon>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section class="mb-5 area-content-paccount">
+            <div class="container">
+                <div class="row">
+
+                        {% render_partial 'site_userpanel.views.userpanel_menu_component' %}
+
+
+                    <div class="col-12 col-lg-8">
+                        {% block content %}
+                        
+                        {% endblock %}
+
+                    </div>
+                </div>
+            </div>
+    </section></div>
+
+{% render_partial 'site_userpanel.views.footer_component' %}
+{% include 'site_userpanel/shared/footer_references.html' %}
+
+</body>
+
+</html>

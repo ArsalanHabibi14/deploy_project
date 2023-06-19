@@ -1,0 +1,239 @@
+{% extends 'shared/base.html' %}
+{% load poll_extras %}
+{% load render_partial %}
+{% load thumbnail %}
+
+{% block title %}
+    {{ blog.title_ir }} | راکافا
+{% endblock %}
+{% block custom_header_references %}
+    <meta name="description" content="{{ blog.description|truncatechars:100 }}"/>
+    <meta property="og:title" content="{{ blog.title_ir }} | راکافا"/>
+    <meta property="og:image" content="{{ blog.image.url }}"/>
+    <meta property="og:description" content="{{ blog.description|truncatechars:100 }}"/>
+    <meta name="twitter:title" content="{{ blog.title_ir }} | راکافا">
+    <meta name="twitter:description" content="{{ blog.description|truncatechars:100 }}">
+    <meta name="twitter:image" content="{{ blog.image.url }}">
+{% endblock %}
+
+{% block content %}
+    <div class="page-wrapper">
+
+
+        <!-- Page Content -->
+        <main class="page-content">
+            <div class="container">
+                <div class="row mb-5">
+
+                    {% render_partial 'site_blog.views.BlogSidebarComponent' %}
+
+
+                    <div class="col-lg-9 col-md-8 order-1 order-md-2">
+                                            <div class="d-md-none">
+                            <button class="btn-filter-sidebar">
+                                جستجوی پیشرفته <i class="fad fa-sliders-h"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <div class="shadow-around">
+                                    <div class="px-3">
+                                        <!-- breadcrumb -->
+                                        <div class="breadcrumb py-2">
+                                            <nav>
+                                                <a href="{% url 'home_page' %}">صفحه اصلی</a>
+                                                <a href="{% url 'blog_list' %}">وبلاگ</a>
+                                                <a href="{{ blog.get_absolute_url }}">{{ blog.title_ir }}</a>
+                                            </nav>
+                                        </div>
+                                        <!-- end breadcrumb -->
+                                        <div class="blog-card single-blog">
+                                            <div class="blog-card-title mb-3">
+                                                <h2 class="text-right"><a
+                                                        href="{{ blog.get_absolute_url }}">{{ blog.title_ir }}</a></h2>
+                                            </div>
+                                            <div class="blog-card-footer mb-3">
+                                                <div class="author">
+                                                    {% thumbnail blog.author.avatar "35x35" quality=95 as im %}
+
+                                                        <img src="{{ im.url }}">
+                                                    {% endthumbnail %}
+
+                                                    <a type="button">{{ blog.author.get_full_name }}</a>
+
+                                                </div>
+                                                <div class="date" title="{{ blog.create_date|show_jalali_date }}">
+                                                    <i class="fad fa-clock"></i>
+                                                    {{ blog.create_date|show_jalali_date }}
+
+                                                </div>
+                                            </div>
+                                            <div class="blog-card-thumbnail">
+                                                <a href="{{ blog.get_absolute_url }}">
+                                                    {% thumbnail blog.image "600x400" crop='center' quality=95 as im %}
+
+                                                        <img src="{{ im.url }}"
+                                                             alt="{{ im.title_ir }}">
+                                                    {% endthumbnail %}
+
+                                                </a>
+                                            </div>
+                                            <div class="blog-card-body">
+                                                {{ blog.description|safe }}
+
+                                            </div>
+                                        </div>
+                                        <hr id="comment-form">
+                                        <!-- product-review -->
+                                        <div class="product-review-form my-5">
+                                            <div class="section-title font-weight-bold mb-1 mt-4 mb-3">
+                                                به گفتگو بپیوندید
+                                            </div>
+                                            {% if request.user.is_authenticated %}
+                                                <form action="" >
+                                                    <input type="hidden" value="" id="parent_id">
+
+                                                    <div class="row align-items-center">
+                                                        <div id="answer-to-comment">
+                                                            <a  id="remove-answer-to-comment" class="mr-4 mb-2"
+                                                                    type="button">
+                                                                <i class="fad fa-window-close"></i>
+                                                                <span>درج به عنوان پاسخ</span>
+
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-element-row">
+                                                         <textarea class="input-element" id="blogComment" rows="6"
+                                                                   placeholder="دیدگاه شما"></textarea>
+                                                                <small class="text-form-description">دیدگاه شما باید
+                                                                    حداقل 10 کاراکتر
+                                                                    باشد</small>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <button class="btn btn-primary px-3" type="button"
+                                                                        id="sendBlogCommentButton"
+                                                                        onclick="sendBlogComment({{ blog.id }})">ثبت
+                                                                    دیدگاه شما<i
+                                                                            class="fad fa-comment-alt-edit"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            {% else %}
+                                                برای ثبت نظر ابتدا باید وارد
+                                                <a href="{% url 'login_page' %}">حساب کاربری</a> خود شوید
+                                            {% endif %}
+
+
+
+
+                                            <div class="section-title mb-1 mt-4">
+                                                نظرات کاربران ( {{ commentscount }} )
+                                            </div>
+                                            <hr>
+                                        </div>
+                                        <div class="product-review mb-4">
+                                            {% if  comments %}
+
+                                                {% for comment in comments %}
+
+                                                    <div class="blockquote comment mb-4">
+                                                        <div class="blockquote-content mb-2">
+                                                            <p>
+                                                                {{ comment.comment }}
+
+                                                            </p>
+                                                            <footer class="testimonial-footer d-flex align-items-center">
+                                                                <div class="testimonial-avatar">
+                                                                    <img src="{{ comment.user.avatar.url }}"
+                                                                         class="bi-50p"
+                                                                         alt="Review Author Avatar">
+                                                                </div>
+                                                                <div class="pr-2 flex-grow-1">
+                                                                    <div class="blockquote-footer">
+                                                                    <span class="d-block font-weight-bold text-dark">
+                                                                        {% if comment.user.first_name %}
+                                                                            {{ comment.user.first_name }}{% else %}بدون
+                                                                            نام{% endif %}
+                                                                    </span>
+                                                                        <div class="d-flex justify-content-between align-items-center">
+                                                                            <cite class="text-sm">
+                                                                                {{ comment.create_date|show_jalali_date }}
+                                                                            </cite>
+                                                                            <a type="button"
+                                                                               onclick="fillParentid({{ comment.id }})"
+                                                                               class="link--with-border-bottom ml-1">پاسخ</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </footer>
+                                                        </div>
+
+                                                        {% for sub_comment in comment.blogcomment_set.all %}
+                                                            {% if sub_comment.accept_by_admin %}
+                                                            <div class="blockquote comment mb-2">
+                                                                <div class="blockquote-content">
+
+                                                                    <p>
+                                                                        {{ sub_comment.comment }}
+
+                                                                    </p>
+                                                                    <footer class="testimonial-footer d-flex align-items-center">
+                                                                        <div class="testimonial-avatar">
+                                                                            <img src="{{ sub_comment.user.avatar.url }}"
+                                                                                 class="bi-50p"
+                                                                                 alt="Review Author Avatar">
+                                                                        </div>
+                                                                        <div class="pr-2 flex-grow-1">
+                                                                            <div class="blockquote-footer">
+                                                                    <span class="d-block font-weight-bold text-dark">
+                                                                        {% if sub_comment.user.first_name %}
+                                                                            {{ sub_comment.user.first_name }}{% else %}
+                                                                            بدون نام{% endif %}
+                                                                    </span>
+                                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                                    <cite class="text-sm">
+                                                                                        {{ sub_comment.create_date|show_jalali_date }}
+                                                                                    </cite>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </footer>
+                                                                </div>
+                                                            </div>
+
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                    </div>
+                                                {% endfor %}
+                                            {% else %}
+                                                <h3 class="section-title mb-1 mt-4">هیچ دیدگاهی برای این محصول ثبت
+                                                    نشده</h3>
+                                            {% endif %}
+
+                                        </div>
+                                        <!-- end product-review -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- end Page Content -->
+
+    </div>
+
+{% endblock %}
+
+{% block custom_footer_references %}
+<script src="/static/js/form.js"></script>
+
+{% endblock %}

@@ -1,0 +1,277 @@
+{% extends 'site_admin/shared/_admin_layout.html' %}
+{% load widget_tweaks %}
+{% load poll_extras %}
+{% block header_references %}
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/fontawesome.css">
+
+    <!-- Flag icon-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/flag-icon.css">
+
+    <!-- Dropzone css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/dropzone.css">
+
+    <!-- jsgrid css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/jsgrid.css">
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/bootstrap.css">
+
+    <!-- App css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/admin.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="page-header-left">
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container-fluid">
+        <div class="row product-adding">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>ویرایش سفارش</h5>
+                        <h5 class="mt-3"><a href="{% url 'admin_edituser' pk=order.user.pk %}">{{ order.user.username }}</a></h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="digital-add needs-validation">
+                            <form action="{% url 'admin_editorder' pk=order.id %}" method="post"
+                                  enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="id_status">وضعیت سفارش</label>
+                                    {% render_field form.status class='form-control' %}
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="form-group mb-0">
+                                    <div class="product-buttons text-center">
+                                        <button type="submit" class="btn btn-primary">ذخیره</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <br>
+                            <div class="card-header">
+                                <p style="font-size: 20px">مشخصات خریدار ( موقع ثبت )</p>
+                            </div>
+
+
+                            <div class="card-body">
+                                <label>شماره همراه :</label>
+                                <span>{{ order.user.phone }}</span>
+                                <br>
+                                <label>ایمیل :</label>
+                                <span>{{ order.user.email }}</span>
+
+                                <br>
+
+                                <label>استان :</label>
+                                <span>{{ order.user_province }}   -   </span>
+
+                                <label>شهر :</label>
+                                <span>{{ order.user_city }}</span>
+
+
+                                <br>
+                                <label>کدپستی :</label>
+                                <span>{{ order.user_postalcode }}</span>
+                                <br>
+                                <label>آدرس :</label>
+                                <span>{{ order.user_address }}</span>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <p style="font-size: 20px">مشخصات خریدار ( فعلی )</p>
+                                </div>
+
+                                <div class="card-body">
+                                    <label>شماره همراه :</label>
+                                    <span>{{ order.user.phone }}</span>
+                                    <br>
+                                    <label>ایمیل :</label>
+                                    <span>{{ order.user.email }}</span>
+                                    <br>
+                                    {% for address in order.user.useraddresses_set.all %}
+                                        {% if address.is_main %}
+                                            <label>استان :</label>
+                                            <span>{{ address.province }}   -   </span>
+
+                                            <label>شهر :</label>
+                                            <span>{{ address.city }}</span>
+
+
+                                            <br>
+                                            <label>کدپستی :</label>
+                                            <span>{{ address.postal_code }}</span>
+                                            <br>
+                                            <label>آدرس :</label>
+                                            <span>{{ address.address }}</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>لیست سفارشات</h5>
+                            </div>
+                            <div class="card-body">
+
+
+                                <div id="basicScenario" class="product-physical jsgrid"
+                                     style="position: relative; height: auto; width: 100%;">
+
+                                    <div class="jsgrid-grid-header jsgrid-header-scrollbar">
+                                        <table class="jsgrid-table">
+                                            <tbody>
+                                            <tr class="jsgrid-header-row">
+                                                <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable"
+                                                    style="width: 25px;">تصویر
+                                                </th>
+                                                <th class="jsgrid-header-cell jsgrid-header-sortable"
+                                                    style="width: 50px;">
+                                                    نام محصول
+                                                </th>
+                                                <th class="jsgrid-header-cell jsgrid-align-right jsgrid-header-sortable"
+                                                    style="width: 25px;">قیمت
+
+                                                <th class="jsgrid-header-cell jsgrid-header-sortable"
+                                                    style="width: 25px;">
+                                                    تعداد
+                                                </th>
+  </th>
+                                                            <th class="jsgrid-header-cell jsgrid-align-right jsgrid-header-sortable"
+                                                    style="width: 25px;">قیمت نهایی
+                                                </th>
+
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="jsgrid-grid-body">
+                                        <table class="jsgrid-table">
+                                            <tbody>
+                                            {% for detail in order.orderdetail_set.all %}
+
+                                                <tr class="{% cycle 'jsgrid-row' 'jsgrid-alt-row' %} ">
+                                                    <td class="jsgrid-cell jsgrid-align-center" style="width: 10px;"><a
+                                                            href="{{ detail.product.get_absolute_url }}"><img
+                                                            src="{{ detail.product.image.url }}"
+                                                            class="blur-up lazyloaded"
+                                                            style="height: 65px; width: 65px;border-radius: 50%"></a>
+                                                    </td>
+
+                                                    <td class="jsgrid-cell"
+                                                        style="width: 30px;"><a
+                                                            href="{{ detail.product.get_absolute_url }}">{{ detail.product.title_ir|truncatechars:110 }}</a>
+                                                    </td>
+                                                    <td class="jsgrid-cell jsgrid-align-right"
+                                                        style="width: 10px;">{{ detail.product_price|three_digits_currency }}</td>
+
+                                                    <td class="jsgrid-cell" style="width: 10px;">{{ detail.count }}</td>
+   <td class="jsgrid-cell jsgrid-align-right"
+                                                        style="width: 10px;">{{ detail.get_total_price|three_digits_currency }}</td>
+                                                </tr>
+
+
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_references %}
+    <!-- latest jquery-->
+    <script src="/static/admin_panel/js/jquery-3.3.1.min.js"></script>
+
+    <!-- Bootstrap js-->
+    <script src="/static/admin_panel/js/bootstrap.bundle.min.js"></script>
+
+    <!-- feather icon js-->
+    <script src="/static/admin_panel/js/icons/feather-icon/feather.min.js"></script>
+    <script src="/static/admin_panel/js/icons/feather-icon/feather-icon.js"></script>
+
+    <!-- Sidebar jquery-->
+    <script src="/static/admin_panel/js/sidebar-menu.js"></script>
+
+    <!--dropzone js-->
+    <script src="/static/admin_panel/js/dropzone/dropzone.js"></script>
+    <script src="/static/admin_panel/js/dropzone/dropzone-script.js"></script>
+
+    <!--ckeditor js-->
+    <script src="/static/admin_panel/js/editor/ckeditor/ckeditor.js"></script>
+    <script src="/static/admin_panel/js/editor/ckeditor/styles.js"></script>
+    <script src="/static/admin_panel/js/editor/ckeditor/adapters/jquery.js"></script>
+    <script src="/static/admin_panel/js/editor/ckeditor/ckeditor.custom.js"></script>
+
+
+    <!-- lazyload js-->
+    <script src="/static/admin_panel/js/lazysizes.min.js"></script>
+
+    <!--right sidebar js-->
+    <script src="/static/admin_panel/js/chat-menu.js"></script>
+
+    <!--script admin-->
+    <script src="/static/admin_panel/js/admin-script.js"></script>
+{% endblock %}

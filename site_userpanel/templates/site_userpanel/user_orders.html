@@ -1,0 +1,115 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+
+{% load poll_extras %}
+{% load thumbnail %}
+{% block title %}
+لیست سفارشات من | {{ setting.site_name }}
+{% endblock %}
+{% block content %}
+    <main class="page-content">
+        <div class="container">
+            <div class="row mb-5">
+                {% render_partial 'site_userpanel.views.userpanel_menu_component' %}
+
+                <div class="col-lg-9 col-md-8">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="section-title mb-2">
+                                تاریخچه سفارشات
+                            </div>
+                            <section class="shadow-around p-3">
+                                <div class="d-none d-sm-block">
+                                    <ul class="nav nav-tabs" id="orders-tab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link active" id="wait-for-payment-tab" data-toggle="tab"
+                                               href="#all" role="tab" aria-controls="all" aria-selected="true">
+                                                همه ی سفارشات
+                                                <span class="badge badge-secondary">{{ all_orders.count }}</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="tab-content" id="orders-tab">
+                                    <div class="tab-pane fade show active" id="all" role="tabpanel"
+                                         aria-labelledby="all">
+                                        {% if all_orders %}
+                                            <section class="table--order shadow-around mt-4">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>شماره سفارش</th>
+                                                            <th>تاریخ ثبت سفارش</th>
+                                                            <th>وضعیت</th>
+                                                            <th>مبلغ کل</th>
+                                                            <th>جزئیات سفارش</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for order in all_orders %}
+                                                            <tr>
+                                                                <td class="order-code">DKC-{{ order.sku_id }}</td>
+                                                                <td>{{ order.payment_date|show_jalali_date }}</td>
+                                                                <td>
+                                                                    {{ order.get_status_display }}
+                                                                </td>
+                                                                <td>{{ order.calculate_total_price|three_digits_currency }}</td>
+                                                                <td class="order-detail-link">
+                                                                    <a href="{{ order.get_absolute_url }}">
+                                                                        <i class="far fa-chevron-left"></i>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </section>
+                                        {% else %}
+                                            <div class="empty-box">
+                                                <div class="icon">
+                                                    <i class="fal fa-times-circle"></i>
+                                                </div>
+                                                <div class="message">
+                                                    <p>سفارشی برای نمایش وجود نداره!</p>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                                        {% if paginator.num_pages >= 2 %}
+
+                                <div class="col-12 px-0">
+                                    <div class="pagination">
+                                        {% if page_obj.has_previous %}
+                                            <a type="button" href="?page={{ page_obj.previous_page_number }}"
+                                               class="prev">
+                                                <i class="far fa-arrow-from-left"></i></a>
+                                        {% endif %}
+                                        {% for pagenumber in paginator.page_range %}
+
+                                            <a href="?page={{ pagenumber }}"
+                                               class="{% if page_obj.number == pagenumber %}current{% endif %}">{{ pagenumber }}</a>
+                                        {% endfor %}
+
+
+                                        {% if page_obj.has_next %}
+                                            <a type="button" href="?page={{ page_obj.next_page_number }}"
+                                               class="prev">
+                                                <i class="far fa-arrow-to-left"></i></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- end Page Content -->
+{% endblock %}

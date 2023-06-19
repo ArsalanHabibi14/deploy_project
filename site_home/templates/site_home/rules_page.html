@@ -1,0 +1,42 @@
+{% extends 'shared/base.html' %}
+
+
+{% block title %}
+    راهنمای خرید و مقررات | راکافا
+{% endblock %}
+{% block custom_header_references %}
+    <meta name="description" content="راکافا فعالیت خود را از سال 1401 در زمینه فروش برنج ایرانی شروع کرده"/>
+    <meta property="og:title" content="راهنمای خرید و مقررات | راکافا"/>
+    <meta property="og:image" content="{{ setting.site_logo.url }}"/>
+    <meta property="og:description" content="راکافا فعالیت خود را از سال 1401 در زمینه فروش برنج ایرانی شروع کرده"/>
+    <meta name="twitter:title" content="راهنمای خرید و مقررات | راکافا">
+    <meta name="twitter:description" content="راکافا فعالیت خود را از سال 1401 در زمینه فروش برنج ایرانی شروع کرده">
+    <meta name="twitter:url" content="{{ request.build_absolute_uri }}"/>
+{% endblock %}
+{% block content %}
+    <div class="main">
+        <div class="page-content bg-lighter pt-5">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0 ">
+                <div class="container d-flex align-items-center ">
+                    <ol class="breadcrumb bg-lighter">
+                        <li class="breadcrumb-item"><a href="{% url 'home_page' %}">خانه</a></li>
+                        <li class="breadcrumb-item "><a href="{% url 'rules_page' %}" class="text-dark">راهنمای خرید و
+                            مقررات</a></li>
+                    </ol>
+
+                </div><!-- End .container -->
+            </nav>
+
+            <div class="container my-5 pb-5 cs-box p-5 ">
+                <h2 class="title text-center mb-3">
+                    <li>راهنمای خرید</li>
+                </h2><!-- End .title -->
+
+                <div class="text-right">
+                    {{ setting.site_rules|safe }}
+                </div>
+            </div>
+        </div><!-- End .container -->
+    </div>
+    </div>
+{% endblock %}

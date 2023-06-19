@@ -1,0 +1,121 @@
+<div class="col-lg-3 col-md-4 mb-md-0 mb-3 sticky-sidebar">
+    <div class="sidebar-widget">
+        <div class="profile-sidebar shadow-around p-2">
+            <div class="d-flex align-items-center">
+                <div class="profile-avatar">
+                    <img src="{{ current_user.avatar.url }}" alt="avatar">
+                </div>
+                <div class="profile-info">
+                    <div class="d-block">
+                        <h6><strong>{% if current_user.get_full_name %}
+                            {{ current_user.get_full_name }}
+                        {% else %}
+                            بدون نام
+                        {% endif %} </strong></h6>
+                    </div>
+                    <div class="d-block">
+                        <strong class="text-muted">{% if current_user.email %}
+                            {{ current_user.email }}
+                        {% endif %} </strong>
+                    </div>
+                </div>
+            </div>
+            <div class="user-options">
+                <ul>
+
+                    <li>
+                        <a type="button">
+                            <span>اعتبار فعلی شما :</span>
+                            <span><span class="text-info font-weight-bold">0 تومان </span></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="user-menu">
+                <ul>
+                    <li>
+                        <a href="{% url 'userpanel_dashboard' %}" {% if request.resolver_match.url_name == 'userpanel_dashboard' %}class="active"{% endif %}>
+                            <i class="far fa-clipboard-user"></i>
+                            پیشخوان حساب کاربری
+                        </a>
+                    </li>
+                    <li >
+                        <a href="{% url 'userpanel_orders' %}" {% if request.resolver_match.url_name == 'userpanel_orders' %}class="active"{% endif %}>
+                            <i class="far fa-shopping-cart"></i>
+                            سفارش های من
+                        </a>
+                    </li>
+
+                    <li >
+                        <a href="{% url 'userpanel_bookmarks' %}" {% if request.resolver_match.url_name == 'userpanel_bookmarks' %}class="active"{% endif %}>
+                            <i class="far fa-heart"></i>
+                            علاقه مندی ها
+                        </a>
+                    </li>
+                <li >
+                        <a href="{% url 'userpanel_recents' %}" {% if request.resolver_match.url_name == 'userpanel_recents' %}class="active"{% endif %}>
+                            <i class="far fa-clock"></i>
+                            بازدیدهای اخیر
+                        </a>
+                    </li>
+                    <hr class="my-2">
+
+                    <li >
+                        <a href="{% url 'userpanel_contacts' %}" {% if request.resolver_match.url_name == 'userpanel_contacts' %}class="active"{% endif %}>
+                            <i class="far fa-phone"></i>
+                            پشتیبانی
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="{% url 'userpanel_wholesales' %}" {% if request.resolver_match.url_name == 'userpanel_wholesales' %}class="active"{% endif %}>
+                            <i class="far fa-clipboard-check"></i>
+                            درخواست خرید عمده برنج
+                        </a>
+                    </li>
+                    <li >
+                        <a href="{% url 'userpanel_addresses' %}" {% if request.resolver_match.url_name == 'userpanel_addresses' %}class="active"{% endif %}>
+                            <i class="far fa-map-marker-edit"></i>
+                            دفترچه آدرس
+                        </a>
+                    </li>
+
+
+                    <hr class="my-2">
+                    <li >
+                        <a href="{% url 'userpanel_edit_profile' %}" {% if request.resolver_match.url_name == 'userpanel_edit_profile' %}class="active"{% endif %}>
+                            <i class="far fa-user-cog"></i>
+                            تنظیمات حساب کاربری
+                        </a>
+                    </li>
+                    {% if status %}
+
+                        <li >
+                            <a href="{% url 'userpanel_set_password' %}" {% if request.resolver_match.url_name == 'userpanel_set_password' %}class="active"{% endif %}>
+                                <i class="far fa-lock-open"></i>
+                                ثبت
+                                کلمه عبور
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'userpanel_edit_password' %}" {% if request.resolver_match.url_name == 'userpanel_edit_password' %}class="active"{% endif %}>
+                                <i class="far fa-lock"></i>
+                                تغییر
+                                کلمه عبور
+                            </a>
+                        </li>
+                    {% endif %}
+                    <hr class="my-2">
+                    <li class="{% if request.resolver_match.url_name == 'logout_page' %}table-active px-2{% endif %}">
+                        <a href="{% url 'logout_page' %}" class="text-danger">
+                            <i class="far fa-sign-in-alt"></i>
+                            خروج از حساب کاربری
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

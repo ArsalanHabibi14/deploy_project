@@ -1,0 +1,80 @@
+{% extends 'shared/base.html' %}
+{% load thumbnail %}
+{% load poll_extras %}
+
+{% block title %}
+    درباره ما | راکافا
+{% endblock %}
+{% block custom_header_references %}
+    <meta name="description" content="راکافا فعالیت خود را از سال 1401 در زمینه فروش برنج ایرانی شروع کرده"/>
+    <meta property="og:title" content="درباره ما | راکافا"/>
+    <meta property="og:image" content="{{ setting.site_logo.url }}"/>
+    <meta property="og:description" content="راکافا فعالیت خود را از سال 1401 در زمینه فروش برنج ایرانی شروع کرده"/>
+    <meta name="twitter:title" content="درباره ما | راکافا">
+    <meta name="twitter:description" content="راکافا فعالیت خود را از سال 1401 در زمینه فروش برنج ایرانی شروع کرده">
+    <meta name="twitter:url" content="{{ request.build_absolute_uri }}"/>
+{% endblock %}
+{% block content %}
+<div class="page-wrapper">
+
+        <main class="page-content">
+            <div class="container">
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-10">
+                        <div class="shadow-around p-3 mb-5">
+
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <h1 class="text-muted text-section-main-big mb-2 text-center ">
+
+                                        درباره ما راکافا
+                                    </h1>
+                                </div>
+                                <div class="col-12 mb-3 text-muted">
+                                    <p class="text-muted text-sm mb-2">
+                                    <div class="row">
+                                        <div class="col-md-6 col-lg-6 ">
+                                            <h2>
+                                            فروشگاه راکافا
+
+
+                                            </h2>
+                                            <div class="mb-3"></div>
+
+                                            <p class="text-section-height">
+                                                گروه تجارت مواد غذایی کِیلَن مسئولیت اجتماعی خود را از سال ۱۳۸۱ آغاز کرد؛ هدف ما عرضه محصولات مرغوب ، به قیمت واقعی و به دور از واسطه برای مشتریان گرامی میباشد.
+
+کِیلَن با دارا بودن کارشناسان مجرب و باتجربه مفتخر است که محصولات را به بهترین نحو و بالاترین کیفیت فراهم نموده و با قیمتی مناسب به مشتریان عرضه کند. با لطف و اعتماد مشتریان و همراهان گرامی ، امروزه  گروه موادغذایی کِیلَن با سه محصول اصلی برنج ، چای و زعفران تلاش می کند که در بالاترین سطح کیفیت و سلامت ، به صورت مستقیم از تولید به مصرف در اختیار خانواده های ایرانی قرار دهد.
+
+یکی از اصلی ترین آرمان های ما حفظ کیفیت مرغوب برای جلب اعتماد و ایجاد ارتباطی صمیمانه و دوستانه  با مشتریان عزیزمی باشد. با توجه به توان بالای تولید کِیلَن امید است که تا انتهای این مسیر با توسعه و تعمیق روابط بلندمدت مشتری ‌مدارانه در کنار همراهان و هموطنان عزیز رو به آینده قدم برداریم.
+
+                                            </p>
+
+                                        </div>
+
+
+                                        <div class="col-md-6 col-lg-6">
+                                            <img src="/static/images/final-footer-min.png"
+                                                 alt="{{ setting.site_title }}" style="width: 100%">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+{% endblock %}
+
+
+
+

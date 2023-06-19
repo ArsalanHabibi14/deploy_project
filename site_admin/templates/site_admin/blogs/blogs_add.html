@@ -1,0 +1,197 @@
+{% extends 'site_admin/shared/_admin_layout.html' %}
+{% load widget_tweaks %}
+{% block header_references %}
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/fontawesome.css">
+
+    <!-- Flag icon-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/flag-icon.css">
+
+    <!-- Dropzone css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/dropzone.css">
+
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/bootstrap.css">
+
+    <!-- App css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/admin.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="page-header-left">
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container-fluid">
+        <div class="row product-adding">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>اضافه کردن بلاگ جدید</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="digital-add needs-validation ">
+                            <form action="{% url 'admin_addblog' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <div class="col-md-2"><label for="id_image">تصویر بلاگ</label></div>
+
+
+                                       <div class="col-md-10">
+                                           <div class="dropzone digits dz-clickable">
+                                            {% render_field form.image class='form-control' %}
+
+                                        </div>
+                                       </div>
+
+                                    </div>
+
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_title_ir">نام بلاگ به فارسی</label>
+                                    {% render_field form.title_ir class='form-control' %}
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_title_en">نام بلاگ به انگلیسی</label>
+                                    {% render_field form.title_en class='form-control' %}
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                    <label for="id_is_active">فعال</label>
+                                        </div>
+                                    {% render_field form.is_active class='checkbox' %}
+                                    </div>
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="id_short_description">توضیحات کوتاه</label>
+                                    <br>
+                                    {% render_field form.short_description class='form-control' %}
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_description">توضیحات</label>
+                                    <br>
+                                    {% render_field form.description class='form-control' %}
+                                    {{ form.media }}
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group mb-0">
+                                    <div class="product-buttons text-center">
+
+
+                                <button type="submit" class="btn btn-primary">اضافه</button>
+                                <button type="reset" class="btn btn-light">پاک کردن فیلد ها</button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_references %}
+    <!-- latest jquery-->
+    <script src="/static/admin_panel/js/jquery-3.3.1.min.js"></script>
+
+    <!-- Bootstrap js-->
+    <script src="/static/admin_panel/js/bootstrap.bundle.min.js"></script>
+
+    <!-- feather icon js-->
+    <script src="/static/admin_panel/js/icons/feather-icon/feather.min.js"></script>
+    <script src="/static/admin_panel/js/icons/feather-icon/feather-icon.js"></script>
+
+    <!-- Sidebar jquery-->
+    <script src="/static/admin_panel/js/sidebar-menu.js"></script>
+
+    <!--dropzone js-->
+    <script src="/static/admin_panel/js/dropzone/dropzone.js"></script>
+    <script src="/static/admin_panel/js/dropzone/dropzone-script.js"></script>
+
+    <!--ckeditor js-->
+    <script src="/static/admin_panel/js/editor/ckeditor/ckeditor.js"></script>
+    <script src="/static/admin_panel/js/editor/ckeditor/styles.js"></script>
+    <script src="/static/admin_panel/js/editor/ckeditor/adapters/jquery.js"></script>
+    <script src="/static/admin_panel/js/editor/ckeditor/ckeditor.custom.js"></script>
+
+    <!-- lazyload js-->
+    <script src="/static/admin_panel/js/lazysizes.min.js"></script>
+
+    <!--right sidebar js-->
+    <script src="/static/admin_panel/js/chat-menu.js"></script>
+
+    <!--script admin-->
+    <script src="/static/admin_panel/js/admin-script.js"></script>
+{% endblock %}

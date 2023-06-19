@@ -1,0 +1,66 @@
+{% load poll_extras %}
+{% load thumbnail %}
+
+
+<div class="product-card default-ui">
+    <div class="product-card-top">
+
+
+        <a href="{{ product.get_absolute_url }}" class="product-image">
+            {% thumbnail product.image "220x220" crop='center' as im %}
+
+                <img src="{{ im.url }}" alt="{{ product.title_ir }}" title="{{ product.title_ir }}"
+                     class="bi-20">
+            {% endthumbnail %}
+
+        </a>
+    </div>
+    <div class="product-card-middle">
+
+        <h6 class="product-name">
+            <a href="{{ product.get_absolute_url }}">{{ product.title_ir }}</a>
+        </h6>
+
+    </div>
+    <div class="product-card-bottom">
+        {% if product.productattribute_set.first.special_price %}
+        <span class="product-box--specialSell"></span>
+    {% else %}
+                    <div class="product-box-plus-height"></div>
+
+    {% endif %}
+        <div class="product-price">
+            {% if product.productattribute_set.first.special_price %}
+
+                <del class="text-muted ml-1">
+                    {{ product.productattribute_set.first.price|three_digits_currency_with_out_toman }}
+                </del>
+            {% endif %}
+
+            {{ product.productattribute_set.first.final_price|three_digits_currency }}
+        </div>
+        <a href="{{ product.get_absolute_url }}" class="btn-add-to-cart-cs">
+            <i class="fal fa-search"></i>
+        </a>
+        <button class="btn-add-to-wishlist-cs btn-add-to-wishlist-{{ product.id }}"
+                onclick="addProductToBookmarks({{ product.id }})">
+            <i class="fal fa-heart "></i>
+        </button>
+
+        <div class="row">
+
+            <div class="col-lg-12">
+            {% if product.stock <= 5 %}
+                <p class="stock-alert bg-red text-white">
+                    {% if product.stock == 0 %}ناموجود{% elif product.stock <= 5 %}{{ product.stock }}  عدد
+                         باقی
+                        مانده{% endif %}
+
+                </p>
+            {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+</div>

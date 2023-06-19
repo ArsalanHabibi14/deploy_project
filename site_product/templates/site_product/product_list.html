@@ -1,0 +1,172 @@
+{% extends 'shared/base.html' %}
+{% load poll_extras %}
+
+
+{% block title %}
+    قیمت و خرید برنج ایرانی | راکافا
+{% endblock %}
+{% block custom_header_references %}
+    <meta name="description" content="لیست قیمت , مقایسه و خرید انواع برنج های ایرانی راکافا"/>
+    <meta property="og:title" content="قیمت و خرید برنج ایرانی | راکافا"/>
+    <meta property="og:image" content="{{ product.image.url }}"/>
+    <meta property="og:description" content="لیست قیمت , مقایسه و خرید انواع برنج های ایرانی راکافا"/>
+    <meta name="twitter:title" content="قیمت و خرید برنج ایرانی | راکافا">
+    <meta name="twitter:description" content="لیست قیمت , مقایسه و خرید انواع برنج های ایرانی راکافا">
+    <meta name="twitter:image" content="{{ product.image.url }}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="page-wrapper">
+
+        <!-- Page Content -->
+        <main class="page-content">
+            <div class="container">
+                <div class="row mb-5 {% if issearched %}justify-content-center{% endif %}">
+                    {% if not issearched %}
+
+                        {% include 'includes/product_filter.html' %}
+                    {% endif %}
+
+
+                    <div class="col-lg-9 col-md-8">
+                        {% if products %}
+
+                            <div class="d-md-none">
+                                <button class="btn-filter-sidebar">
+                                    جستجوی پیشرفته <i class="fad fa-sliders-h"></i>
+                                </button>
+                            </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- breadcrumb -->
+                                <div class="breadcrumb mb-2 pt-2">
+                                    <nav>
+                                        <a href="{% url 'home_page' %}">صفحه اصلی</a>
+                                        {% if issearched %}
+                                            <a>جستجو</a>
+
+                                        {% endif %}
+                                        {% if currentcat %}
+                                            <a href="{{ currentcat.get_absolute_url }}">{{ currentcat.title }}</a>
+
+                                        {% endif %}
+                                        {% if currentsubcat %}
+                                            <a href="{{ currentsubcat.get_absolute_url }}">{{ currentsubcat.title }}</a>
+
+                                        {% endif %}
+                                    </nav>
+                                </div>
+                                <!-- end breadcrumb -->
+                            </div>
+                        </div>
+                        <div class="listing-items row justify-content-center my-5" id="loading-section"
+                             style="display: none">
+                            <div class="spinner-grow text-dark" role="status">
+                            </div>
+                            <div class="spinner-grow text-dark" role="status">
+                            </div>
+                            <div class="spinner-grow text-dark" role="status">
+                            </div>
+                            <div class="spinner-grow text-dark" role="status">
+                            </div>
+                            <div class="spinner-grow text-dark" role="status">
+                            </div>
+                            <div class="spinner-grow text-dark" role="status">
+                            </div>
+                            <div class="spinner-grow text-dark" role="status">
+                            </div>
+                            <div class="spinner-grow text-dark" role="status">
+                            </div>
+                            <div class="spinner-grow text-dark" role="status">
+                            </div>
+                            <div class="spinner-grow text-dark" role="status">
+                            </div>
+                        </div>
+
+                        <div class="listing-items row" id="filteredProducts">
+
+                            {% if products %}
+                                {% for product in products %}
+
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-6 px-0">
+                                        {% include 'includes/product_item_partial.html' with product=product %}
+                                    </div>
+                                {% endfor %}
+
+
+                            {% else %}
+                                <div class="col-lg-12 col-md-12 col-sm-12 px-0">
+
+                                    <div class="empty-box">
+                                        <div class="icon">
+                                            <i class="fal fa-times-circle"></i>
+                                        </div>
+                                        <div class="message">
+                                            <p>محصولی برای نمایش وجود نداره!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if paginator.num_pages >= 2 %}
+
+                                <div class="col-12 px-0">
+                                    <div class="pagination">
+                                        {% if page_obj.has_previous %}
+                                            <a type="button" href="?page={{ page_obj.previous_page_number }}"
+                                               class="prev">
+                                                <i class="far fa-arrow-from-left"></i></a>
+                                        {% endif %}
+                                        {% for pagenumber in paginator.page_range %}
+
+                                            <a href="?page={{ pagenumber }}"
+                                               class="{% if page_obj.number == pagenumber %}current{% endif %}">{{ pagenumber }}</a>
+                                        {% endfor %}
+
+
+                                        {% if page_obj.has_next %}
+                                            <a type="button" href="?page={{ page_obj.next_page_number }}"
+                                               class="prev">
+                                                <i class="far fa-arrow-to-left"></i></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-12">
+                        <div class="shadow-around p-3 mb-5">
+
+                            <div class="row">
+
+                                {% if currentsubcat %}
+                                    {% if currentsubcat.description %}
+                                        {{ currentsubcat.description|safe }}
+                                    {% endif %}
+
+                                {% endif %}
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+        <!-- end Page Content -->
+    </div>
+
+{% endblock %}
+{% block custom_footer_references %}
+    <script>
+        var product_filter_max_price = {{maxprice.price__max}};
+    </script>
+    <script type="text/javascript" src="/static/js/product_filter.js"></script>
+{% endblock %}

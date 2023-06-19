@@ -1,0 +1,99 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+
+{% load poll_extras %}
+{% load thumbnail %}
+{% block title %}
+جزئیات سفارش {{ order.sku_id }} | {{ setting.site_name }}
+{% endblock %}
+{% block content %}
+    <main class="page-content">
+        <div class="container">
+            <div class="row mb-5">
+                {% render_partial 'site_userpanel.views.userpanel_menu_component' %}
+                <div class="col-lg-9 col-md-8">
+                    <div class="section-title mb-2">
+                        <span class="ml-2">جزئیات سفارش</span>
+                        <span class="text-muted ml-2">|</span>
+                        <span class="font-en ml-2">DKC-{{ order.sku_id }}</span>
+                        <span class="text-muted ml-2">|</span>
+                        <span class="text-sm text-secondary">{{ order.payment_date|show_jalali_date }}</span>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <section class="shadow-around p-3">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="checkout-section shadow-around p-2">
+                                            <div class="checkout-section-content ">
+                                                <div class="cart-items p-3">
+                                                    <div class="mb-2">
+                                                        <span class="text-muted">تحویل گیرنده:</span>
+                                                        <span class="font-weight-bold">{{ order.user_receiver }}</span>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted">شماره تماس :</span>
+                                                        <span class="font-weight-bold">{{ order.user.phone }}</span>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted d-block">ارسال به:</span>
+                                                        <span class="font-weight-bold">
+                                                                {{ order.user_province }},{{ order.user_city }},{{ order.user_address }},
+                                                                {{ order.user_postalcode }}
+
+
+                                                            </span>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <span class="text-muted">وضعیت :</span>
+
+                                                        <span class="font-weight-bold text-{% if order.status == 'canceled' %}danger{% elif order.status == 'delivered' %}success
+                                                    {% elif order.status == 'pending' %}yellow{% elif order.status == 'processing' %}
+                                                    blue{% elif order.status == 'sent' %}success{% endif %}">
+
+                                                                {{ order.get_status_display }}
+
+                                                            </span>
+                                                    </div>
+{% if order.coupon_code %}
+                                                    <div class="mb-2">
+                                                        <span class="text-muted">مبلغ قبل از استفاده از کد تخفیف :</span>
+                                                        <span class="font-weight-bold text-info">
+                                                                {{ order.calculate_total_price_before_discount|three_digits_currency }}
+                                                            </span>
+                                                    </div>
+                                                        <div class="mb-2">
+                                                        <span class="text-muted red">تخفیف :</span>
+                                                        <span class="font-weight-bold red">
+                                                                {{ order.calculate_discount_price|three_digits_currency }}
+                                                            </span>
+                                                    </div>
+{% endif %}
+                                                <div class="mb-2">
+                                                        <span class="text-muted">مبلغ پرداخت شده :</span>
+                                                        <span class="font-weight-bold text-success">
+                                                                {{ order.calculate_total_price|three_digits_currency }}
+                                                            </span>
+                                                    </div>
+
+                                                    <div class="refunds-ajax">
+    {% include 'site_userpanel/content/user_refunds_content.html' %}
+
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- end Page Content -->
+{% endblock %}

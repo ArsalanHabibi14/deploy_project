@@ -1,0 +1,98 @@
+<!-- Page Header Start-->
+<div class="page-main-header">
+    <div class="main-header-right row">
+        <div class="main-header-left d-lg-none w-auto">
+            <div class="logo-wrapper"><a href="{% url 'home_page' %}"><img class="blur-up lazyloaded"
+                                                                           src="{{ setting.site_logo.url }}"
+                                                                           style="height: 50px"
+                                                                           alt=""></a></div>
+        </div>
+        <div class="mobile-sidebar w-auto">
+            <div class="media-body text-end switch-sm">
+                <label class="switch"><a href="#"><i id="sidebar-toggle" data-feather="align-left"></i></a></label>
+            </div>
+        </div>
+        <div class="nav-right col">
+            <ul class="nav-menus">
+
+                <li>
+                    <a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i
+                        data-feather="maximize-2"></i></a></li>
+
+                <li class="onhover-dropdown">
+                    <i data-feather="bell"></i>
+                    <span class="badge badge-pill badge-primary pull-right notification-badge">{{ notifications }}</span><span  class="dot"></span>
+                    <ul class="notification-dropdown onhover-show-div p-0">
+                        <li>اعلان ها <span class="badge badge-pill badge-primary pull-right">{{ notifications }}</span>
+                        </li>
+                        {% if pending_orders_count >= 1 %}
+                            <li>
+                                <a href="{% url 'admin_orderlist' %}">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h6 class="mt-0"><span><i class="shopping-color"
+                                                                      style=" background-color: #2DB566 !important;border-radius: 50%;"
+
+                                                                      data-feather="dollar-sign"></i></span>{{ pending_orders_count }}
+                                                سفارش جدید</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if pending_refunds_count >= 1 %}
+                            <li>
+                                <a href="{% url 'admin_refundslist' %}" class="text-yellow">
+                                    <div class="media">
+                                        <div class="media-body ">
+                                            <h6 class="mt-0 text-yellow"><span><i class="shopping-color bg-light"
+                                                                                  style=" background-color: #ffa825 !important;border-radius: 50%;"
+                                                                                  data-feather="dollar-sign"></i></span>{{ pending_refunds_count }}
+                                                درخواست مرجوعی</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if not_read_contacts_count >= 1 %}
+                            <li>
+                                <a href="{% url 'admin_contactslist' %}">
+                                    <div class="media">
+                                        <div class="media-body ">
+                                            <h6 class="mt-0 text-white"><span><i class="shopping-color text-blue"
+                                                                                 style=" background-color: white !important;border-radius: 25%;"
+
+                                                                                 data-feather="clipboard"></i></span>{{ not_read_contacts_count }}
+                                                تماس جدید</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endif %}
+
+
+
+                    </ul>
+                </li>
+
+                <li class="onhover-dropdown">
+                    <div class="media align-items-center"><img
+                            class="align-self-center pull-right img-50 rounded-circle blur-up lazyloaded"
+                            src="{{ request.user.avatar.url }}" alt="header-user">
+                        <div class="dotted-animation"><span class="animate-circle"></span><span
+                                class="main-circle"></span></div>
+                    </div>
+                    <ul class="profile-dropdown onhover-show-div p-20 profile-dropdown-hover">
+                        <li><a href="{% url 'admin_edituser' pk=request.user.id %}"><i data-feather="user"></i>Edit
+                            Profile</a></li>
+
+
+                        <li><a href="{% url 'logout_page' %}"><i data-feather="log-out"></i>Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="d-lg-none mobile-toggle pull-right"><i data-feather="more-horizontal"></i></div>
+        </div>
+    </div>
+</div>
+<!-- Page Header Ends -->

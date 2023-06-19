@@ -1,0 +1,125 @@
+<div class="col-lg-3 col-md-4 sticky-sidebar filter-options-sidebar">
+    <div class="d-md-none">
+        <div class="header-filter-options">
+            <span>جستجوی پیشرفته <i class="fad fa-sliders-h"></i></span>
+            <button class="btn-close-filter-sidebar"><i class="fal fa-times"></i></button>
+        </div>
+    </div>
+    <div class="sidebar-widget shadow-around p-3">
+        <div class="widget shadow-around">
+            <div class="widget-title">محدوده قیمت</div>
+            <div class="widget-content">
+                <form class="filter-price">
+                    <div class="mt-2 mb-2">
+                        <div class="filter-slider">
+                            <div id="slider-non-linear-step" class="price-slider"></div>
+                        </div>
+                        <ul class="filter-range">
+                            <li data-label="از" data-currency=" تومان">
+                                <input type="text" data-value="0" value="0" name="price[min]"
+                                       data-range="0" class="js-slider-range-from disabled example-val minPrice"
+                                       id="skip-value-lower" disabled="disabled" >
+                            </li>
+
+
+                            <li data-label="تا" data-currency="تومان">
+                                <input type="text" data-value="{{ maxprice.final_price__max }}"
+                                       value="{{ maxprice.final_price__max }}"
+                                       name="price[max]" data-range="{{ maxprice.final_price__max }}"
+                                       class="js-slider-range-to disabled example-val maxPrice"
+                                       id="skip-value-upper" disabled="disabled" max="{{ maxprice.final_price__max }}" >
+                            </li>
+                        </ul>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="widget shadow-around">
+            <div class="widget-content">
+                <div class="custom-control custom-switch ">
+                    <input type="checkbox" class="custom-control-input filter-checkbox" id="onlyQuantitySwitch" data-filter="onlyQuantity" value="1">
+                    <label class="custom-control-label" for="onlyQuantitySwitch">فقط کالاهای موجود در
+                        انبار</label>
+                </div>
+            </div>
+
+        </div>
+     <div class="widget shadow-around">
+            <div class="widget-content">
+                <div class="custom-control custom-switch ">
+                    <input type="checkbox" class="custom-control-input filter-checkbox" id="onlySpecialSwitch" data-filter="onlySpecial" value="1">
+                    <label class="custom-control-label" for="onlySpecialSwitch">فقط کالاهای فروش ویژه</label>
+                </div>
+            </div>
+
+        </div>
+    {% if currentcat and not currentsubcat %}
+        <input class="filter-checkbox" type="checkbox" id="input-category{{ currentcat.id }}"
+               data-filter="category" value="{{ currentcat.id }}" hidden checked>
+    {% endif %}
+
+    {% if currentsubcat and not currenttype %}
+        <input class="filter-checkbox" type="checkbox" id="input-subcategory{{ currentsubcat.id }}"
+               data-filter="subcategory" value="{{ currentsubcat.id }}" hidden checked>
+    {% endif %}
+
+
+
+
+
+        {% if currentcat and not currentsubcat %}
+
+        <div class="widget widget-filter-options shadow-around ">
+            <div class="widget-title">دسته</div>
+            <div class="search-in-options form-element-row">
+                <div class="form-element-with-icon">
+                    <input type="text" class="input-element" placeholder="جستجوی نام دسته...">
+                </div>
+            </div>
+            <div class="widget-content">
+                {% for subcat in subcats %}
+
+                    <label class="container-checkbox" for="input-subcat{{ subcat.id }}">{{ subcat.title }}
+                        <input class="filter-checkbox" type="checkbox" id="input-subcat{{ subcat.id }}"
+                               data-filter="subcategory" value="{{ subcat.id }}">
+                        <span class="checkmark"></span>
+                    </label>
+                {% endfor %}
+
+            </div>
+        </div>
+        {% endif %}
+
+
+    {% if not currenttype and not issearched %}
+
+        <div class="widget widget-filter-options shadow-around ">
+            <div class="widget-title">نوع</div>
+            <div class="search-in-options form-element-row">
+                <div class="form-element-with-icon">
+                    <input type="text" class="input-element" placeholder="جستجوی نام نوع...">
+                </div>
+            </div>
+            <div class="widget-content">
+                {% for type in types %}
+
+                    <label class="container-checkbox" for="input-type{{ type.id }}">{{ type.title }}
+                        <input class="filter-checkbox" type="checkbox" id="input-type{{ type.id }}"
+                               data-filter="type" value="{{ type.id }}">
+                        <span class="checkmark"></span>
+                    </label>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    {% endif %}
+
+
+        <div class="d-md-none text-center">
+            <button class="btn-filter-product-submit btn-close-filter-sidebar bi-30">بستن</button>
+
+        </div>
+    </div>
+</div>

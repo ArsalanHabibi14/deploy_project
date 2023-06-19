@@ -1,0 +1,126 @@
+{% extends 'shared/base.html' %}
+{% load thumbnail %}
+{% load poll_extras %}
+
+{% block title %}
+    خرید عمده برنج | راکافا
+{% endblock %}
+
+{% block custom_header_references %}
+    <meta name="description" content="یکی دیگر از خدمات راکافا فروش برنج به صورت عمده میباشد"/>
+    <meta property="og:title" content="خرید عمده برنج | راکافا"/>
+    <meta property="og:image" content="{{ setting.site_logo.url }}"/>
+    <meta property="og:description" content="یکی دیگر از خدمات راکافا فروش برنج به صورت عمده میباشد"/>
+    <meta name="twitter:title" content="خرید عمده برنج | راکافا">
+    <meta name="twitter:description" content="یکی دیگر از خدمات راکافا فروش برنج به صورت عمده میباشد">
+    <meta name="twitter:url" content="{{ request.build_absolute_uri }}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="page-wrapper">
+
+        <main class="page-content">
+            <div class="container">
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-6">
+                        <div class="shadow-around p-3 mb-5">
+                            <form method="post" action="{% url 'wholesale_page' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <h1 class="text-muted text-section-main mb-2 text-center ">
+                                            خرید عمده برنج
+                                        </h1>
+                                        <hr>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <p class=" text-sm mb-2 font-weight-bold">
+
+                                            برای خرید و سفارش
+                                            عمده مواد غذایی(اساسی) و دریافت لیست قیمت با {{ setting.site_phone }} تماس
+                                            بگیرید.
+                                            <br>
+
+                                            در فروشگاه راکافا می توانید خریدی بدون واسطه با ارزان ترین قیمت به صو
+                                            رت عمده و جزئی را به صورت دائمی داشته باشید.
+                                        </p>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-element-row">
+                                            {{ form.email.label_tag }}
+                                            {{ form.email }}
+                                            {{ form.email.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-element-row">
+                                            {{ form.phone.label_tag }}
+                                            {{ form.phone }}
+                                            {{ form.phone.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-element-row">
+                                            {{ form.company.label_tag }}
+                                            {{ form.company }}
+                                            {{ form.company.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-element-row">
+                                            {{ form.province.label_tag }}
+                                            {{ form.province }}
+                                            {{ form.province.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-element-row">
+                                            {{ form.city.label_tag }}
+                                            {{ form.city }}
+                                            {{ form.city.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-element-row">
+                                            {{ form.rice.label_tag }}
+                                            {{ form.rice }}
+                                            {{ form.rice.errors }}
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-element-row">
+                                            {{ form.amount.label_tag }}
+                                            {{ form.amount }}
+                                            {{ form.amount.errors }}
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-element-row">
+                                            {{ form.description.label_tag }}
+                                            {{ form.description }}
+                                            {{ form.description.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-element-row text-center">
+                                            <button class="btn-element btn-info-element" type="submit">
+                                                ثبت درخواست
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+{% endblock %}

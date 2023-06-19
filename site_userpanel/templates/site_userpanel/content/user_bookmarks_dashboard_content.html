@@ -1,0 +1,57 @@
+{% if  bookmarks %}
+
+    <div class="row">
+
+        {% for favorite in bookmarks %}
+            <div class="col-12 mb-4">
+                <div class="product-list-section">
+                    <div class="product-thumbnail">
+                        <a href="{{ favorite.product.get_absolute_url }}">
+                            <img src="{{ favorite.product.image.url }}"
+                                 alt="{{ favorite.product.title_ir }}" class="bi-30">
+                        </a>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">
+                            <a href="{{ favorite.product.get_absolute_url }}">
+                                {{ favorite.product.title_ir }}
+
+                            </a>
+                        </div>
+                        {% if favorite.product.quantity %}
+                            <div class="text-success">
+                                موجود
+                            </div>
+                        {% else %}
+                            <div class="red">
+                                موجود
+                            </div>
+                        {% endif %}
+
+                        <button class="remove-item" onclick="addProductToBookmarks({{ favorite.product.id }})">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+        <div class="col-12">
+            <div class="text-center">
+                <a href="{% url 'userpanel_bookmarks' %}" class="link--with-border-bottom">
+                    <i class="far fa-edit"></i>
+                    مشاهده و ویرایش لیست مورد علاقه
+                </a>
+            </div>
+        </div>
+    </div>
+{% else %}
+<div class="empty-box">
+                                                <div class="icon">
+                                                    <i class="fal fa-times-circle"></i>
+                                                </div>
+                                                <div class="message">
+                                                    <p>محصولی برای نمایش وجود نداره!</p>
+                                                </div>
+                                            </div>
+{% endif %}

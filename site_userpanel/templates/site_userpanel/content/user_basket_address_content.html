@@ -1,0 +1,327 @@
+{% load poll_extras %}
+{% load thumbnail %}
+<div class="row mb-4">
+    <div class="col-xl-9 col-lg-8 col-md-8 mb-md-0 mb-3">
+        <div class="checkout-section shadow-around">
+            <div class="checkout-step">
+                <ul>
+                    <li class="active">
+                        <a href="{% url 'user_basket_page' %}"><span>سبد خرید</span></a>
+                    </li>
+                    <li class="active">
+                        <span>انتخاب آدرس</span>
+                    </li>
+                    <li>
+                        <span>پرداخت نهایی و ثبت سفارش</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="row mx-0">
+                <div class="col-md-6 col-sm-12">
+                    {% if order.coupon_code %}
+
+                        <div class="d-flex align-items-center">
+                            <div class="form-element-row flex-grow-1 bg-light">
+                                <p class="input-element text-success">کد تخفیف {{ order.coupon_code }} با موفقیت اعمال
+                                    شد</p>
+                            </div>
+
+                            <div class="form-element-row mr-3">
+
+                                <button class="btn-element btn-danger-element " onclick="removeCoupon()"
+                                        id="remove-coupon-btn">
+                                    حذف
+                                    <span id="loading-icon">
+
+
+                                    </span>
+                                </button>
+                            </div>
+
+                        </div>
+                    {% else %}
+                        <div class="checkout-section-title">ثبت کد تخفیف
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="form-element-row flex-grow-1">
+                                <input type="text" class="input-element" id="coupon-code"
+                                       placeholder="کد تخفیف را وارد کنید" onkeyup="couponCheck()">
+                            </div>
+                            <div class="form-element-row mr-3">
+                                <button class="btn-element btn-info-element btn-with-spinner" onclick="useCoupon()"
+                                        id="coupon-btn">
+                                    ثبت
+                                    <span id="loading-icon">
+
+
+                                    </span>
+
+                                </button>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+            <div class="checkout-section-content">
+                <div class="checkout-section-title">انتخاب آدرس</div>
+
+                <div class="row mx-0">
+                    {% for address in object_list %}
+
+                        <div class="col-xl-6 col-lg-4 col-sm-6 mb-3">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" id="customRadio{{ address.id }}" name="customRadio"
+                                       class="custom-control-input" {% if address.is_main %}checked{% endif %}
+                                       onclick="set_address_main({{ address.id }})">
+                                <label class="custom-control-label address-select">
+                                    <label class="head-address-select {% if address.is_main %}text-success{% else %}text-blue{% endif %}"
+                                           for="customRadio{{ address.id }}">{% if address.is_main %}
+                                        آدرس پیش فرض
+                                    {% else %}
+                                        به این آدرس ارسال شود
+                                    {% endif %} </label>
+
+                                    <span>{{ address.province }},{{ address.city }},{{ address.address }}</span>
+                                    <span>
+                                <i class="fa fa-envelope"></i>
+                                {{ address.postal_code }}
+                            </span>
+                                    <span>
+                                <i class="fa fa-user"></i>
+                                {{ address.receiver_name }}
+                            </span>
+                                    <span>
+                                <i class="fa fa-phone"></i>
+                                {{ address.receiver_phone }}
+                            </span>
+                                    <div class="d-flex justify-content-center">
+                                        {% if not address.is_main %}
+                                            <a type="button" onclick="set_address_main({{ address.id }})"
+                                               class="set-defualt-address-btn">
+                                                پیش فرض
+                                                <i class="fa fa-check-circle"></i>
+                                            </a>
+                                        {% endif %}
+
+                                        <a type="button" onclick="open_edit_address({{ address.id }})"
+                                           class="edit-address-btn "
+                                           data-toggle="modal" data-target="#editAddressModal">
+                                            ویرایش
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a type="button" onclick="remove_address({{ address.id }})"
+                                           class="remove-address-btn red">
+                                            حذف
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <div class="col-xl-6 col-lg-4 col-sm-6 mb-3 ">
+                        <div class="custom-control custom-radio ">
+                            {% if addresses_count < 4 %}
+                                <button class="add-address" data-toggle="modal" data-target="#addAddressModal">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if addresses_count < 4 %}
+                    <div class="modal fade" id="addAddressModal" tabindex="-1"
+                         aria-labelledby="addAddressModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addAddressModalLabel">ثبت آدرس جدید</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-lg-6 mb-3">
+                                                <div class="text-sm text-muted mb-1">نام تحویل گیرنده :</div>
+                                                <div class="text-dark font-weight-bold">
+                                                    <div class="form-element-row mb-0">
+                                                        <input type="text" class="input-element" value=""
+                                                               id="add-receiver-name-input">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-3">
+                                                <div class="text-sm text-muted mb-1">شماره تماس تحویل گیرنده :</div>
+                                                <div class="text-dark font-weight-bold">
+                                                    <div class="form-element-row mb-0">
+                                                        <input type="text" class="input-element " value=""
+                                                               id="add-receiver-phone-input">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-3">
+                                                <div class="text-sm text-muted mb-1">استان :</div>
+                                                <div class="text-dark font-weight-bold">
+                                                    <div class="form-element-row mb-0">
+                                                        <select name="state" onChange="irancitylist(this.value);"
+                                                                class="input-element site-form2"
+                                                                id="add-province-input">
+                                                            <option value="0">لطفا استان را انتخاب نمایید</option>
+                                                            <option value="تهران">تهران</option>
+                                                            <option value="گیلان">گیلان</option>
+                                                            <option value="آذربایجان شرقی">آذربایجان شرقی</option>
+                                                            <option value="خوزستان">خوزستان</option>
+                                                            <option value="فارس">فارس</option>
+                                                            <option value="اصفهان">اصفهان</option>
+                                                            <option value="خراسان رضوی">خراسان رضوی</option>
+                                                            <option value="قزوین">قزوین</option>
+                                                            <option value="سمنان">سمنان</option>
+                                                            <option value="قم">قم</option>
+                                                            <option value="مرکزی">مرکزی</option>
+                                                            <option value="زنجان">زنجان</option>
+                                                            <option value="مازندران">مازندران</option>
+                                                            <option value="گلستان">گلستان</option>
+                                                            <option value="اردبیل">اردبیل</option>
+                                                            <option value="آذربایجان غربی">آذربایجان غربی</option>
+                                                            <option value="همدان">همدان</option>
+                                                            <option value="کردستان">کردستان</option>
+                                                            <option value="کرمانشاه">کرمانشاه</option>
+                                                            <option value="لرستان">لرستان</option>
+                                                            <option value="بوشهر">بوشهر</option>
+                                                            <option value="کرمان">کرمان</option>
+                                                            <option value="هرمزگان">هرمزگان</option>
+                                                            <option value="چهارمحال و بختیاری">چهارمحال و بختیاری
+                                                            </option>
+                                                            <option value="یزد">یزد</option>
+                                                            <option value="سیستان و بلوچستان">سیستان و بلوچستان</option>
+                                                            <option value="ایلام">ایلام</option>
+                                                            <option value="کهگلویه و بویراحمد">کهگلویه و بویراحمد
+                                                            </option>
+                                                            <option value="خراسان شمالی">خراسان شمالی</option>
+                                                            <option value="خراسان جنوبی">خراسان جنوبی</option>
+                                                            <option value="البرز">البرز</option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 mb-3">
+                                                <div class="text-sm text-muted mb-1">شهر :</div>
+                                                <div class="text-dark font-weight-bold">
+                                                    <div class="form-element-row mb-0">
+                                                        <select name="city" id="add-city-input"
+                                                                class="input-element site-form2 add-city-input">
+                                                            <option value="0">لطفا استان را انتخاب نمایید</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12 mb-3">
+                                                <div class="text-sm text-muted mb-1">کد پستی ( 10 رقمی ) :</div>
+                                                <div class="text-dark font-weight-bold">
+                                                    <div class="form-element-row mb-0">
+                                                        <input type="text" class="input-element " value=""
+                                                               id="add-postalcode-input">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mb-3">
+                                                <div class="text-sm text-muted mb-1">آدرس کامل:</div>
+                                                <div class="text-dark font-weight-bold">
+                                                    <div class="form-element-row mb-0">
+                                        <textarea name="address" cols="10" rows="10"
+                                                  class="input-element" id="add-address-input"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary "
+                                                        onclick="add_address()">
+                                                    ثبت
+                                                    <i class="fad fa-money-check-edit"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+
+                <div class="checkout-section-title">شیوه پرداخت</div>
+                <div class="payment-selection">
+                    <div class="custom-control custom-radio custom-control-inline mb-3">
+                        <input type="radio" id="paymentSelection1" name="paymentSelection" class="custom-control-input"
+                               checked="">
+                        <label class="custom-control-label payment-select" for="paymentSelection1">
+                                            <span class="d-flex align-items-center">
+                                                <i class="fad fa-credit-card"></i>
+                                                <span>
+                                                    <span class="title">پرداخت آنلاین</span>
+                                                    <span class="subtitle">آنلاین با تمامی کارت‌های بانکی</span>
+                                                </span>
+                                            </span>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-4 col-md-4">
+        <div class="shadow-around pt-3">
+
+
+            <div class="d-flex justify-content-between px-3 py-2">
+                <span class="font-weight-bold"> مجموع سبد خرید ({{ order.orderdetail_set.count }})</span>
+                <span class="font-weight-bold">
+                        {{ sum_before_discount|three_digits_currency }}
+                    </span>
+
+            </div>
+            {% if order.coupon_code %}
+            <div class="d-flex justify-content-between px-3 py-2">
+                <span class="font-weight-bold red">تخفیف</span>
+                <span class="font-weight-bold red">
+                        {{ order.calculate_discount_price|three_digits_currency }}
+                    </span>
+
+            </div>
+            {% endif %}
+            <hr>
+            <div class="d-flex justify-content-between px-3 py-2">
+                <span class="font-weight-bold">مبلغ قابل پرداخت</span>
+                <span class="font-weight-bold text-success">
+                    {% if sum == 0 %}
+                        رایگان
+                    {% else %}
+                                                                                   {{ sum|three_digits_currency }}
+
+                    {% endif %}
+
+                                </span>
+            </div>
+            <div class="d-flex px-3 py-4">
+                <button type="button" onclick="checkUserStatus()" class="btn btn-success btn-block py-2" id="check-user-status-btn">
+                    پرداخت و ثبت
+                    نهایی
+                <span id="loading-icon-status-btn">
+
+
+                                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

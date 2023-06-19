@@ -1,0 +1,41 @@
+<div class="auth-form-title text-center">
+    کد تایید را وارد کنید
+</div>
+<div class="form-element-row">
+    <label for="lbp-section-input" class="label-element">
+
+
+        کد تایید برای شماره {{ phone_number }} پیامک شد
+
+    </label>
+    <div class="form-element-row">
+        <input type="text" class="input-element bi-30 text-center text-otp text-left" maxlength="5" autofocus autocomplete="false"
+               id="lbotp-section-input" onkeyup="lbotp_section_input_check()">
+    </div>
+
+
+</div>
+
+<div class="form-element-row text-center">
+    <button class="btn-element btn-login" id="lbotp-section-btn" onclick="lbotp_section_btn()" type="button"
+            disabled>
+        تایید
+                                            <span id="loading-icon">
+
+                                    </span>
+    </button>
+</div>
+<div class="auth-form-footer ">
+    <span class="text-gray resend-counter"  >ارسال مجدد بعد از <span id="resend-otp-counter"></span></span>
+
+    <div id="phone-resend-button-section">
+
+
+    </div>
+
+</div>
+<script>
+    var user_Phone = {{ phone_number }};
+</script>
+
+

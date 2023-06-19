@@ -1,0 +1,73 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+
+{% load poll_extras %}
+{% load thumbnail %}
+{% block title %}
+علاقه مندی های من | {{ setting.site_name }}
+{% endblock %}
+{% block content %}
+    <main class="page-content">
+        <div class="container">
+            <div class="row mb-5">
+                {% render_partial 'site_userpanel.views.userpanel_menu_component' %}
+
+                <div class="col-lg-9 col-md-8">
+                    <div class="section-title mb-2">
+                        لیست علاقه‌مندی‌ها
+                    </div>
+
+                    {% if object_list %}
+
+
+                        <div class="shadow-around">
+                            <div class="bookmarks-ajax">
+
+                                {% include 'site_userpanel/content/user_bookmarks_content.html' %}
+
+                            </div>
+
+                        </div>
+
+                    {% else %}
+                        <div class="empty-box">
+                            <div class="icon">
+                                <i class="fal fa-times-circle"></i>
+                            </div>
+                            <div class="message">
+                                <p>محصولی برای نمایش وجود نداره!</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                                                                                                    {% if paginator.num_pages >= 2 %}
+
+                                <div class="col-12 px-0">
+                                    <div class="pagination">
+                                        {% if page_obj.has_previous %}
+                                            <a type="button" href="?page={{ page_obj.previous_page_number }}"
+                                               class="prev">
+                                                <i class="far fa-arrow-from-left"></i></a>
+                                        {% endif %}
+                                        {% for pagenumber in paginator.page_range %}
+
+                                            <a href="?page={{ pagenumber }}"
+                                               class="{% if page_obj.number == pagenumber %}current{% endif %}">{{ pagenumber }}</a>
+                                        {% endfor %}
+
+
+                                        {% if page_obj.has_next %}
+                                            <a type="button" href="?page={{ page_obj.next_page_number }}"
+                                               class="prev">
+                                                <i class="far fa-arrow-to-left"></i></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+            </div>
+        </div>
+    </main>
+    <!-- end Page Content -->
+{% endblock %}

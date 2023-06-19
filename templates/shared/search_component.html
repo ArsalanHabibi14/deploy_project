@@ -1,0 +1,25 @@
+<div class="search-box">
+    <form action="{% url 'product_search' %}" method="get">
+        <input type="text" placeholder="نام محصول یا برند را جستجو کنید..." id="SearchField" name="q" value="{{ request.GET.q }}" autocomplete="off">
+        <i class="far fa-search"></i>
+    </form>
+    <div class="search-result">
+        <ul class="search-result-list">
+
+
+        </ul>
+        <div class="no-result-section  text-danger" style="display: none">
+            <li class="no-result">محصولی یافت نشد</li>
+
+        </div>
+
+        <ul class="search-result-most-view">
+            {% for subcategory in subcategory_for_search %}
+                <li><a href="{{ subcategory.get_absolute_url }}">{{ subcategory.title }}</a></li>
+
+            {% endfor %}
+
+
+        </ul>
+    </div>
+</div>

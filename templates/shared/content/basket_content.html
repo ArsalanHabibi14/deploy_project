@@ -1,0 +1,73 @@
+{% load poll_extras %}
+{% load thumbnail %}
+
+<a type="button">
+    <i class="fal fa-shopping-cart"></i>
+    <span class="bag-items-number">{{ order.orderdetail_set.count }}</span>
+</a>
+{% if order.orderdetail_set.all %}
+
+    <ul>
+        <li class="cart-items">
+            <ul class="do-nice-scroll basket-content">
+                {% for detail in order.orderdetail_set.all %}
+                    <li class="cart-item ">
+                                            <span class="d-flex align-items-center mb-2">
+                                                <a href="{{ detail.product.get_absolute_url }}">
+                                                    <img src="{{detail.product.image.url}}" alt="{{ detail.product.title_ir }}">
+                                                </a>
+                                                <span>
+                                                    <a href="{{ detail.product.get_absolute_url }}">
+                                                        <span class="title-item">
+                                                            {{ detail.product.title_ir }}
+                                                        </span>
+                                                    </a>
+                                                    <span class="color d-flex align-items-center">
+                                                        وزن:
+                                                        {{ detail.weight }} کیلوگرم
+                                                    </span>
+                                                    <span class="color d-flex align-items-center">
+                                                        تعداد:
+                                                        {{ detail.count }}
+                                                    </span>
+                                                </span>
+                                            </span>
+                        <span class="price">{{ detail.product_price|three_digits_currency }}</span>
+                        <button class="remove-item" onclick="removeOrderDetail({{ detail.id }})">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+
+        <li class="cart-footer d-flex align-items-center justify-content-between">
+
+                                    <span class="d-flex flex-column">
+                                        <span>مبلغ کل:</span>
+                                        <span class="total">{{ sum|three_digits_currency }}</span>
+                                    </span>
+            <span class="d-block text-center px-2">
+                                        <a href="{% url 'user_basket_page' %}" class="btn-cart">
+                                            مشاهده سبد خرید
+                                        </a>
+                                    </span>
+
+
+        </li>
+    </ul>
+
+{% else %}
+    <ul>
+
+
+        <li class="cart-footer d-flex align-items-center justify-content-between">
+
+                                    <span class="d-flex flex-column">
+                                        <span>سبد خرید شما خالی میباشد</span>
+                                    </span>
+
+
+        </li>
+    </ul>
+{% endif %}

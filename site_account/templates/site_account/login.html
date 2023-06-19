@@ -1,0 +1,63 @@
+{% extends 'shared/only_references.html' %}
+
+{% block content %}
+    <div class="page-wrapper auth-page-wrapper bg-lighter">
+
+        <!-- Page Content -->
+        <main class="page-content">
+            <div class="container">
+                <div class="auth-wrapper">
+                    <div class="auth-form shadow-around">
+                        <div class="site-logo ">
+                            <a href="{% url 'home_page' %}">
+                                <img src="{{ setting.site_logo.url }}" alt="{{ setting.site_name }}" class="login-logo">
+                            </a>
+                        </div>
+
+                        <div id="login-form-section" >
+                            <div class="auth-form-title text-center">
+                                ورود یا ثبت نام
+                            </div>
+                            <div class="form-element-row">
+                                <label for="auth-input" class="label-element">
+                                    لطفا شماره موبایل یا ایمیل خود را وارد کنید
+                                </label>
+                                <div class="form-element-row">
+                                    <input type="text" class="input-element bi-30 " id="auth-input" >
+                                </div>
+
+                                <span class="red" id="login-form-error"></span>
+
+
+                            </div>
+
+                            <div class="form-element-row text-center">
+                                <button class="btn-element btn-login" id="btn-login-intro" type="button">
+                                    ورود
+                                    <span id="loading-icon">
+
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="auth-form-footer text-center">
+                            <span>
+                                 با ورود به راکافا، کلیه <a href="{% url 'terms_page' %}">قوانین و مقررات</a>
+                                        را می‌پذیرم
+                            </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- end Page Content -->
+
+
+    </div>
+{% endblock %}
+{% block custom_footer_references %}
+    <script src="/static/js/auth.js"></script>
+
+
+{% endblock %}

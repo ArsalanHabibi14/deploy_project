@@ -1,0 +1,139 @@
+{% load poll_extras %}
+{% load thumbnail %}
+{% if order.orderdetail_set.all %}
+    <div class="row mb-4">
+        <div class="col-xl-9 col-lg-8 col-md-8 mb-md-0 mb-3">
+            <div class="checkout-section shadow-around">
+                <div class="checkout-step">
+                   <ul>
+                                    <li class="active">
+                                        <a href="{% url 'user_basket_page' %}"><span>سبد خرید</span></a>
+                                    </li>
+                                    <li>
+                                        <span >انتخاب آدرس</span>
+                                    </li>
+                                    <li>
+                                        <span>پرداخت نهایی و ثبت سفارش</span>
+                                    </li>
+                                </ul>
+                </div>
+                <div class="checkout-section-content">
+                    <div class="cart-items ">
+                        {% for detail in order.orderdetail_set.all %}
+
+                            <div class="cart-item py-4 px-3">
+                                <div class="item-thumbnail">
+                                    <a href="{{ detail.product.get_absolute_url }}">
+                                        {% thumbnail detail.product.image "140x140" crop='center' as im %}
+
+                                            <img src="{{ im.url }}" alt="{{ detail.product.title_ir }}" class="bi-20">
+                                        {% endthumbnail %}
+
+                                    </a>
+                                </div>
+                                <div class="item-info flex-grow-1">
+                                    <div class="item-title">
+                                        <h2>
+                                            <a href="{{ detail.product.get_absolute_url }}">
+                                                {{ detail.product.title_ir }}
+
+                                            </a>
+                                        </h2>
+                                    </div>
+                                    <div class="item-detail">
+                                        <ul>
+                                            <li>
+                                                <i class="fal fa-money-bill-wave text-success"></i>
+
+                                                <span>قیمت :</span>
+                                                <span class="mr-2">                                 {{ detail.product_price|three_digits_currency }}
+ </span>
+                                            </li>
+                                            <li>
+                                                <i class="fal fa-apple-crate text-danger"></i>
+
+                                                <span>وزن :</span>
+                                                <span class="mr-2"> {{ detail.weight }} </span>
+                                            </li>
+                                            <li>
+                                                {% if detail.product.quantity %}
+                                                    <i class="far fa-clipboard-check text-primary"></i>
+                                                    <span>موجود در انبار</span>
+                                                {% else %}
+                                                    <i class="far fa-clipboard text-danger"></i>
+                                                    <span>نا موجود</span>
+                                                {% endif %}
+                                            </li>
+                                        </ul>
+                                        <div class="item-quantity--item-price">
+                                            <div class="item-quantity">
+                                                <div class="num-block">
+                                                    <div class="num-in">
+                                                        <span  class="plus order-detail-count"
+                                                              onclick="changeOrderDetailCount({{ detail.id }}, 'increase')" > </span>
+                                                        <input type="text" class="in-num" value="{{ detail.count }}"
+                                                               readonly max="{% if detail.product.stock >= 5 %}5{% else %}{{ detail.product.stock }}{% endif %}">
+                                                        <span class="minus"
+                                                              onclick="changeOrderDetailCount({{ detail.id }}, 'decrease')"></span>
+                                                    </div>
+                                                </div>
+                                                <button class="item-remove-btn mr-3"
+                                                        onclick="removeOrderDetail({{ detail.id }})">
+                                                    <i class="far fa-trash-alt"></i>
+                                                    حذف
+                                                </button>
+                                            </div>
+                                            <div class="item-price">
+                                                {{ detail.get_total_price|three_digits_currency }}
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-4">
+            <div class="shadow-around pt-3">
+
+
+                <div class="d-flex justify-content-between px-3 py-2">
+                    <span class="font-weight-bold"> مجموع سبد خرید ({{ order.orderdetail_set.count }})</span>
+                    <span class="font-weight-bold">
+                        {{ sum|three_digits_currency }}
+                    </span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between px-3 py-2">
+                    <span class="font-weight-bold">مبلغ قابل پرداخت</span>
+                    <span class="font-weight-bold">
+                                                           {{ sum|three_digits_currency }}
+
+                                </span>
+                </div>
+                <div class="d-flex px-3 py-4">
+                    <a href="{% url 'user_checkout_page' %}" class="btn btn-success btn-block py-2">ادامه و انتخاب آدرس</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% else %}
+
+     <div class="empty-box shadow-around">
+                            <div class="icon">
+                                <i class="fal fa-shopping-cart"></i>
+                            </div>
+                            <div class="message ">
+                                <p class="text-info">سبد خرید شما خالی میباشد!</p>
+                                <a href="{% url 'home_page' %}" class="btn btn-success  my-3">صفحه اصصلی</a>
+                            </div>
+                        </div>
+
+{% endif %}

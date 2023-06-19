@@ -1,0 +1,56 @@
+{% load poll_extras %}
+{% load thumbnail %}
+{% for detail in order.orderdetail_set.all %}
+
+    <div class="cart-item py-4 px-3">
+        <div class="item-thumbnail">
+            <a href="{{ detail.product.get_absolute_url }}">
+                {% thumbnail detail.product.image "140x140" crop='center' as im %}
+
+                    <img src="{{ im.url }}"
+                         alt="{{ detail.product.title_ir }}"
+                         class="bi-30">
+                {% endthumbnail %}
+
+            </a>
+        </div>
+        <div class="item-info flex-grow-1">
+            <div class="item-title">
+                <h2>
+                    <a href="{{ detail.product.get_absolute_url }}">
+                        {{ detail.product.title_ir }}
+                    </a>
+                </h2>
+            </div>
+            <div class="item-detail">
+                <ul>
+                    <li>
+                        <span>وزن :</span>
+                        <span class="mr-1">{{ detail.weight }}</span>
+                    </li>
+                    <li>
+                        <span>تعداد :</span>
+                        <span class="mr-1">{{ detail.count }}</span>
+                    </li>
+                    <li>
+                        <span>وضعیت درخواست مرجوعی :</span>
+                        <span class="mr-1  text-{% if detail.refundstatus == 'notrequested' %}gray{% elif detail.refundstatus == 'requested' %}yellow{% elif detail.refundstatus == 'notaccepted' %}danger{% endif %}">
+                                                                                {{ detail.get_refundstatus_display }}
+                            {% if detail.refundstatus == "notrequested" %}
+                                <button class="btn-main"
+                                        onclick="refundrequest({{ detail.id }},{{ order.sku_id}})">درخواست</button>
+                            {% endif %}
+                                                                            </span>
+                    </li>
+
+                </ul>
+                <div class="item-quantity--item-price">
+                    <div class="item-price">
+                        <span class="text-muted"> قیمت :</span>
+                        {{ detail.get_total_price|three_digits_currency }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

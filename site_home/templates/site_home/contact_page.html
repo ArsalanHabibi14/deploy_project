@@ -1,0 +1,125 @@
+{% extends 'shared/base.html' %}
+{% load thumbnail %}
+{% load poll_extras %}
+{% block title %}
+    تماس با ما | راکافا
+{% endblock %}
+{% block custom_header_references %}
+    <meta name="description" content="راکافا فعالیت خود را از سال 1401 در زمینه فروش برنج ایرانی شروع کرده"/>
+    <meta property="og:title" content="تماس با ما | راکافا"/>
+    <meta property="og:image" content="{{ setting.site_logo.url }}"/>
+    <meta property="og:description" content="راکافا فعالیت خود را از سال 1401 در زمینه فروش برنج ایرانی شروع کرده"/>
+    <meta name="twitter:title" content="تماس با ما | راکافا">
+    <meta name="twitter:description" content="راکافا فعالیت خود را از سال 1401 در زمینه فروش برنج ایرانی شروع کرده">
+    <meta name="twitter:url" content="{{ request.build_absolute_uri }}"/>
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="page-wrapper">
+
+        <main class="page-content">
+            <div class="container">
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-6">
+                        <div class="shadow-around p-3 mb-5">
+                            <form method="post" action="{% url 'contact_page' %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <h1 class="text-muted text-section-main mb-2 text-center ">
+
+                                            تماس با ما
+                                        </h1>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <p class="text-muted text-sm mb-2 text-center font-weight-bold">
+
+                                            قبل از مطرح کردن هرگونه سوال ، بخش
+
+
+                                            <a href="{% url 'faq_page' %}">سوالات متداول</a> را مطالعه نمایید
+
+
+                                        </p>
+                                         <section class="shadow-around p-3">
+                                    <div class="row">
+                                        <div class="col-lg-6 mb-4">
+                                            <div class="text-sm text-muted">شماره تماس :</div>
+                                            <div class="text-dark font-weight-bold">
+
+                                                <a href="tel:{{ setting.site_phone }}">{{ setting.site_phone }}</a>
+
+                                            </div>
+                                        </div>
+                                    <div class="col-lg-6 mb-4">
+                                            <div class="text-sm text-muted">آدرس ایمیل :</div>
+                                            <div class="text-dark font-weight-bold">
+
+                                                <a href="mailto:{{ setting.site_email }}">{{ setting.site_email }}</a>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 mb-4">
+                                            <div class="text-sm text-muted">آدرس :</div>
+                                            <div class="text-dark font-weight-normal">
+
+                                                {{ setting.site_address }}
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </section>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-element-row">
+                                            {{ form.email }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-element-row">
+                                            {{ form.phone }}
+                                            {{ form.phone.errors }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-element-row">
+                                            {{ form.subject }}
+                                            {{ form.subject.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-element-row">
+                                            {{ form.message }}
+                                            {{ form.message.errors }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-element-row text-center">
+                                            <button class="btn-element btn-info-element" type="submit"
+                                                    id="contactsubmit">
+
+                                                ارسال پیام
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+
+{% endblock %}

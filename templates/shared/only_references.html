@@ -1,0 +1,44 @@
+{% load render_partial %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    {% block custom_header_references %} {% endblock %}
+    {% render_partial 'site_home.views.header_references_component' %}
+
+</head>
+
+<body>
+
+
+
+        {% block content %}
+
+        {% endblock %}
+
+
+
+        <!-- Page Loader -->
+        <div class="page-loader">
+            <div class="page-loader-content">
+
+                <span class="loader"></span>
+            </div>
+        </div>
+        <!-- end Page Loader -->
+
+
+
+
+{% include 'shared/references/footer.html' %}
+
+{% block custom_footer_references %}{% endblock %}
+
+
+</body>
+
+</html>

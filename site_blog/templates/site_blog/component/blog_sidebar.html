@@ -1,0 +1,51 @@
+{% load poll_extras %}
+{% load thumbnail %}
+
+<div class="col-lg-3 col-md-4 sticky-sidebar filter-options-sidebar">
+    <div class="d-md-none">
+        <div class="header-filter-options">
+            <span>جستجوی پیشرفته <i class="fad fa-sliders-h"></i></span>
+            <button class="btn-close-filter-sidebar"><i class="fal fa-times"></i></button>
+        </div>
+    </div>
+    <div class="sidebar-widget">
+        <div class="widget shadow-around">
+
+                        <div class="widget-title">جستجو نوشته</div>
+
+            <section>
+
+                {% include 'site_blog/search_blog_input_component/search.html' %}
+
+            </section>
+        </div>
+
+        <div class="widget widget-tags shadow-around">
+            <div class="widget-title">پست های پر طرفدار</div>
+            <div class="widget-content">
+                <ul>                    {% for blog in most_visit_blogs %}
+
+                                                               <li class="d-flex mb-2">
+                        <a href="{{ blog.get_absolute_url }}" class="grayscale">
+                            {% thumbnail blog.image "50x50" quality=95 as im %}
+                                <img src="{{ im.url }}" alt="{{ blog.title_ir }}" class="bi-50p">
+                            {% endthumbnail %}
+
+                        </a>
+                        <div>
+                            <a class="mr-2 mt-2 text-muted" href="{{ blog.get_absolute_url }}">
+                                {{ blog.title_ir }}
+
+                            </a>
+
+                        </div>
+                    </li>
+
+                                        {% endfor %}
+
+                                        </ul>
+            </div>
+        </div>
+
+    </div>
+</div>

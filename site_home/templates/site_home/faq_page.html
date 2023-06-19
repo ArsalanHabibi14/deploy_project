@@ -1,0 +1,53 @@
+{% extends 'shared/base.html' %}
+{% load thumbnail %}
+{% load poll_extras %}
+
+{% block title %}
+    سوالات متداول | راکافا
+{% endblock %}
+{% block custom_header_references %}
+    <meta name="description" content="راکافا فعالیت خود را از سال 1401 در زمینه فروش برنج ایرانی شروع کرده"/>
+    <meta property="og:title" content="سوالات متداول | راکافا"/>
+    <meta property="og:image" content="{{ setting.site_logo.url }}"/>
+    <meta property="og:description" content="راکافا فعالیت خود را از سال 1401 در زمینه فروش برنج ایرانی شروع کرده"/>
+    <meta name="twitter:title" content="سوالات متداول | راکافا">
+    <meta name="twitter:description" content="راکافا فعالیت خود را از سال 1401 در زمینه فروش برنج ایرانی شروع کرده">
+    <meta name="twitter:url" content="{{ request.build_absolute_uri }}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="page-wrapper">
+
+        <main class="page-content">
+            <div class="container">
+                <div class="row justify-content-center">
+
+                    <div class="col-lg-6">
+                        <div class="shadow-around p-3 mb-5">
+                            <section class="Accordion">
+                                <ul class="Accordion__tabs">
+                                    <li class="Accordion__tab" onclick="toggleAccordion(this)">
+                                        <div class="Accordion__tab__headline">
+                                            <h4>چرا رچا رچا</h4><span class="icon"></span>
+                                        </div>
+                                        <div class="Accordion__tab__content">
+                                            <div class="wrapper">
+                                                <p>
+                                                    صشلحصلحشمصل حشملصحشل ص شلصش لسلشصلشصلشص لش
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+
+
+{% endblock %}

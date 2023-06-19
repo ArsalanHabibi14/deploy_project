@@ -1,0 +1,18 @@
+{% extends 'shared/base.html' %}
+
+{% load poll_extras %}
+{% load thumbnail %}
+{% block title %}
+سبد خرید | {{ setting.site_name }}
+{% endblock %}
+{% block content %}
+        <main class="page-content">
+            <div class="container order-detail-content">
+
+                {% include 'site_userpanel/content/user_basket_content.html' %}
+
+            </div>
+        </main>
+        <!-- end Page Content -->
+
+{% endblock %}

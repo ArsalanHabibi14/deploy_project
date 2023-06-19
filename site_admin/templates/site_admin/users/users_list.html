@@ -1,0 +1,272 @@
+{% extends 'site_admin/shared/_admin_layout.html' %}
+{% load poll_extras %}
+{% block header_references %}
+
+    <!-- Font Awesome-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/fontawesome.css">
+
+    <!-- Flag icon-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/flag-icon.css">
+
+    <!-- jsgrid css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/jsgrid.css">
+
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/bootstrap.css">
+
+    <!-- App css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/admin.css">
+{% endblock %}
+{% block content %}
+
+
+
+
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-6">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>لیست کاربران</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <form class="form-inline mb-4" action="{% url 'admin_searchuser' %}" method="get">
+                                    <div class="form-group">
+                                        <input type="text" id="itemSearchField" class="form-control cs-search"
+                                               placeholder="جستجو ..." name="q" value="{{ request.GET.q }}">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="btn-popup pull-right">
+                                    <a href="{% url 'admin_adduser' %}">
+                                        <button type="button" class="btn btn-primary pull-right">اضافه کردن کاربر
+                                        </button>
+                                    </a>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="btn-popup pull-right">
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title f-w-600" id="exampleModalLabel">Add Digital
+                                                Product</h5>
+                                            <button class="btn-close" type="button" data-bs-dismiss="modal"
+                                                    aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="needs-validation">
+                                                <div class="form">
+                                                    <div class="form-group">
+                                                        <label for="validationCustom01" class="mb-1">Sub Category Name
+                                                            :</label>
+                                                        <input class="form-control" id="validationCustom01" type="text">
+                                                    </div>
+                                                    <div class="form-group mb-0">
+                                                        <label for="validationCustom02" class="mb-1">Sub Category Image
+                                                            :</label>
+                                                        <input class="form-control" id="validationCustom02" type="file">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-primary" type="button">Save</button>
+                                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="basicScenario" class="product-physical jsgrid"
+                             style="position: relative; height: auto; width: 100%;">
+
+                            <div class="jsgrid-grid-header jsgrid-header-scrollbar">
+                                <table class="jsgrid-table">
+                                    <tbody>
+                                    <tr class="jsgrid-header-row">
+                                        <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable"
+                                            style="width: 15px;">تصویر
+                                        </th>
+                                        <th class="jsgrid-header-cell jsgrid-header-sortable" style="width: 15px;">
+                                           نام کاربری
+                                        </th>
+                                        <th class="jsgrid-header-cell jsgrid-header-sortable" style="width: 15px;">
+                                           ایمیل
+                                        </th>
+                                        <th class="jsgrid-header-cell jsgrid-header-sortable" style="width: 15px;">
+                                           شماره همراه
+                                        </th>
+                                        <th class="jsgrid-header-cell jsgrid-header-sortable" style="width: 15px;">
+                                           اخرین تاریخ ورود
+                                        </th>
+
+                                        <th class="jsgrid-header-cell jsgrid-header-sortable" style="width: 15px;">
+                                            فعال
+                                        </th>
+
+
+                                        <th class="jsgrid-header-cell jsgrid-control-field jsgrid-align-center"
+                                            style="width: 15px;"><input
+                                                class="jsgrid-button jsgrid-mode-button jsgrid-insert-mode-button"
+                                                type="button" title="Switch to inserting"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="jsgrid-grid-body">
+                                <table class="jsgrid-table">
+                                    <tbody>
+                                    {% for user in object_list %}
+                                        <tr class="{% cycle 'jsgrid-row' 'jsgrid-alt-row' %}">
+                                            <td class="jsgrid-cell jsgrid-align-center" style="width: 15px;"><img
+                                                    src="{{ user.avatar.url }}"
+                                                    class="blur-up lazyloaded"
+                                                    style="height: 65px; width: 65px;border-radius: 50%"></td>
+
+                                            <td class="jsgrid-cell"
+                                                style="width: 15px;">{% if  user.username %}{{ user.username }}{% else %}ندارد{% endif %}</td>
+
+                                            <td class="jsgrid-cell jsgrid-align-right"
+                                                style="width: 15px;">{% if  user.email %}{{ user.email }}{% else %}ندارد{% endif %}</td>
+
+                                            <td class="jsgrid-cell" style="width: 15px;">
+                                                {% if  user.phone %}{{ user.phone }}{% else %}ندارد{% endif %}
+                                            </td>
+                                            <td class="jsgrid-cell" style="width: 15px;">
+                                                {{user.last_login|show_jalali_date}}
+                                            </td>
+
+                                            <td class="jsgrid-cell" style="width: 15px;"><i
+                                                    class="fa fa-circle {% if user.is_active %}font-success{% else %}font-danger{% endif %}  f-12"></i></td>
+
+                                            <td class="jsgrid-cell jsgrid-control-field jsgrid-align-center"
+                                                style="width: 15px;">
+                                                <a href="{% url 'admin_edituser' pk=user.id %}"><input class="jsgrid-button jsgrid-edit-button"
+                                                                            type="button" title="Edit"></a>
+                                                <a href="{% url 'admin_deleteuser' pk=user.id %}" class="jsgrid-button jsgrid-delete-button" type="button" title="Delete"></a>
+
+                                            </td>
+                                        </tr>
+
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                                {% if paginator.num_pages >= 2 %}
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center" style="display: block;margin-top: 30px;margin-bottom: 10px">
+
+                                            <li class="page-item mr-2 ml-2{% if not page_obj.has_previous %}disabled{% endif %}">
+                                                <a class="page-link-admin page-link-prev" href="?page=
+                                                        {% if page_obj.has_previous %}{{ page_obj.previous_page_number }}{% endif %}"
+                                                   aria-label="Previous" tabindex="-1"
+                                                   aria-disabled="true">
+
+
+                                                    <span aria-hidden="true">
+                                                        <span class="ml-3">
+
+                                                                قبلی
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            {% for pagenumber in paginator.page_range %}
+                                                <li class="page-item {% if page_obj.number == pagenumber %}active disabled{% endif %}"
+                                                    aria-current="page"><a class="page-link"
+                                                                           href="?page={{ pagenumber }}">{{ pagenumber }}</a>
+                                                </li>
+                                            {% endfor %}
+
+                                            <li class="page-item-total">از {{ paginator.num_pages }}</li>
+                                            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                                                <a class="page-link-admin page-link-next"
+                                                   href="?page=
+                                                   {% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}"
+                                                   aria-label="Next">
+                                                    بعدی <span aria-hidden="true"><i
+                                                        class="icon-long-arrow-left"></i></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+
+                                {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% block footer_references %}
+    <!-- latest jquery-->
+    <script src="/static/admin_panel/js/jquery-3.3.1.min.js"></script>
+
+    <!-- Bootstrap js-->
+    <script src="/static/admin_panel/js/bootstrap.bundle.min.js"></script>
+
+    <!-- feather icon js-->
+    <script src="/static/admin_panel/js/icons/feather-icon/feather.min.js"></script>
+    <script src="/static/admin_panel/js/icons/feather-icon/feather-icon.js"></script>
+
+    <!-- Sidebar jquery-->
+    <script src="/static/admin_panel/js/sidebar-menu.js"></script>
+
+    {#    <!-- Jsgrid js-->#}
+    {#    <script src="/static/admin_panel/js/jsgrid/jsgrid.min.js"></script>#}
+    {#    <script src="/static/admin_panel/js/jsgrid/griddata-digital-sub.js"></script>#}
+    {#    <script src="/static/admin_panel/js/jsgrid/jsgrid-digital-sub.js"></script>#}
+
+
+    <!-- lazyload js-->
+    <script src="/static/admin_panel/js/lazysizes.min.js"></script>
+
+    <!--right sidebar js-->
+    <script src="/static/admin_panel/js/chat-menu.js"></script>
+
+    <!--script admin-->
+    <script src="/static/admin_panel/js/admin-script.js"></script>
+
+{% endblock %}

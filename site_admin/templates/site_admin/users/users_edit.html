@@ -1,0 +1,466 @@
+{% extends 'site_admin/shared/_admin_layout.html' %}
+{% load widget_tweaks %}
+{% load poll_extras %}
+{% block header_references %}
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Font Awesome-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/fontawesome.css">
+
+    <!-- Flag icon-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/flag-icon.css">
+
+    <!-- Dropzone css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/dropzone.css">
+
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/vendors/bootstrap.css">
+
+    <!-- App css-->
+    <link rel="stylesheet" type="text/css" href="/static/admin_panel/css/admin.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="page-header-left">
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container-fluid">
+        <div class="row product-adding">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>ویرایش {{ product.title_ir }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="digital-add needs-validation">
+                            <form action="{% url 'admin_edituser' pk=user.id %}" method="post"
+                                  enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                            <label for="id_image">تصویر کاربر</label>
+                                            <div class="mt-4"></div>
+                                            <img src="{{ user.avatar.url }}" alt=""
+                                                 style="width: 130px;border-radius: 20px;">
+
+
+                                        </div>
+
+
+                                        <div class="col-md-10">
+                                            <div class="dropzone digits dz-clickable">
+                                                {% render_field form.avatar class='form-control' %}
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_username">نام کاربری</label>
+                                    {% render_field form.username class='form-control' %}
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_first_name">نام </label>
+                                    {% render_field form.first_name class='form-control' %}
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_last_name">نام خانوادگی</label>
+                                    {% render_field form.last_name class='form-control' %}
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_email">ایمیل</label>
+                                    {% render_field form.email class='form-control' %}
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_phone">شماره همراه</label>
+                                    {% render_field form.phone class='form-control' %}
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <label for="id_is_superuser">ادمین</label>
+                                        </div>
+                                        {% render_field form.is_superuser class='checkbox' %}
+                                    </div>
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_password">رمز عبور</label>
+                                    {% render_field form.password class='form-control' %}
+
+                                    <div>
+                                        <ul>
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <br>
+
+
+                                <div class="form-group mb-0">
+                                    <div class="product-buttons text-center">
+                                        <button type="submit" class="btn btn-primary">save</button>
+                                        <button type="reset" class="btn btn-light">Discard</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>لیست آدرس های ثبت شده کاربر</h5>
+                                </div>
+                                <div class="card-body">
+
+
+                                    <div id="basicScenario" class="product-physical jsgrid"
+                                         style="position: relative; height: auto; width: 100%;">
+
+                                        <div class="jsgrid-grid-header jsgrid-header-scrollbar">
+                                            <table class="jsgrid-table">
+                                                <tbody>
+                                                <tr class="jsgrid-header-row">
+
+                                                    <th class="jsgrid-header-cell jsgrid-header-sortable"
+                                                        style="width: 200px;">
+                                                        استان
+                                                    </th>
+                                                    <th class="jsgrid-header-cell jsgrid-align-right jsgrid-header-sortable"
+                                                        style="width: 200px;">شهر
+                                                    </th>
+                                                    <th class="jsgrid-header-cell jsgrid-header-sortable"
+                                                        style="width: 200px;">
+                                                        کد پستی
+                                                    </th>
+                                                    <th class="jsgrid-header-cell jsgrid-header-sortable"
+                                                        style="width: 1000px;">
+                                                        آدرس
+                                                    </th>
+
+
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="jsgrid-grid-body">
+                                            <table class="jsgrid-table">
+                                                <tbody>
+                                                {% for address in user.useraddresses_set.all  %}
+
+                                                    <tr class="{% cycle 'jsgrid-row' 'jsgrid-alt-row' %} ">
+
+
+                                                        <td class="jsgrid-cell {% if address.is_main %}text-success{% endif %}"
+                                                            style="width: 200px;">{{ address.province }}</td>
+                                                        <td class="jsgrid-cell {% if address.is_main %}text-success{% endif %}"
+                                                            style="width: 200px {% if address.is_main %}text-success{% endif %};">{{ address.city }}</td>
+                                                        <td class="jsgrid-cell {% if address.is_main %}text-success{% endif %}"
+                                                            style="width: 200px;">{{ address.postal_code }}</td>
+                                                        <td class="jsgrid-cell {% if address.is_main %}text-success{% endif %}"
+                                                            style="width: 1000px;">{{ address.address }}</td>
+
+                                                    </tr>
+
+
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>لیست خرید های کاربر</h5>
+                                </div>
+                                                    <div class="card-body">
+
+                        <form class="form-inline mb-4" action="{% url 'admin_searchorder' %}" method="get">
+                            <div class="form-group">
+                                <input type="text" id="itemSearchField" class="form-control cs-search"
+                                       placeholder="جستجو ..." name="q" value="{{ request.GET.q }}">
+                            </div>
+                        </form>
+
+
+                        <div id="basicScenario" class="product-physical jsgrid"
+                             style="position: relative; height: auto; width: 100%;">
+
+                            <div class="jsgrid-grid-header jsgrid-header-scrollbar">
+                                <table class="jsgrid-table">
+                                    <tbody>
+                                    <tr class="jsgrid-header-row">
+                                        <th class="jsgrid-header-cell jsgrid-header-sortable" style="width: 15%;">
+                                            شناسه
+                                        </th>
+
+                                        <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable"
+                                            style="width: 15%;">تصویر کاربر
+                                        </th>
+                                        <th class="jsgrid-header-cell jsgrid-header-sortable" style="width: 20%;">
+                                            ایمیل
+                                        </th>
+                                        <th class="jsgrid-header-cell jsgrid-header-sortable" style="width: 20%;">
+                                            شماره همراه
+                                        </th>
+                                        <th class="jsgrid-header-cell jsgrid-header-sortable" style="width: 20%;">
+                                            وضعیت سفارش
+                                        </th>
+
+                                        <th class="jsgrid-header-cell jsgrid-header-sortable" style="width: 15%;">
+                                            تاریخ ثبت
+                                        </th>
+
+
+                                        <th class="jsgrid-header-cell jsgrid-control-field jsgrid-align-center"
+                                            style="width: 15%;"><input
+                                                class="jsgrid-button jsgrid-mode-button jsgrid-insert-mode-button"
+                                                type="button" title="Switch to inserting"></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+
+                                <div class="jsgrid-grid-body">
+                                    <table class="jsgrid-table">
+                                        <tbody>
+                                        {% for order in user.order_set.all %}
+                                            {% if order.is_paid %}
+                                            <tr class="{% cycle 'jsgrid-row' 'jsgrid-alt-row' %}">
+
+
+                                                <td class="jsgrid-cell"
+                                                    style="width: 15%;">
+                                                    {{ order.sku_id }}
+                                                </td>
+                                                <td class="jsgrid-cell jsgrid-align-center" style="width: 15%;"><img
+                                                        src="{{ order.user.avatar.url }}"
+                                                        class="blur-up lazyloaded"
+                                                        style="height: 65px; width: 65px;border-radius: 50%"></td>
+
+                                                <td class="jsgrid-cell jsgrid-align-right"
+                                                    style="width: 20%;">
+                                                    {% if  order.user.email %}{{ order.user.email }}{% else %}
+                                                        ندارد{% endif %}</td>
+                                                <td class="jsgrid-cell" style="width: 20%;">
+                                                    {% if  order.user.phone %}{{ order.user.phone }}{% else %}
+                                                        ندارد{% endif %}
+                                                </td>
+                                                <td class="jsgrid-cell"
+                                                    style="width: 15%;color: yellow">{{ order.get_status_display }}
+                                                </td>
+                                                <td class="jsgrid-cell" style="width: 15%;">
+                                                    {{ order.payment_date|show_jalali_date }}
+                                                </td>
+
+
+                                                <td class="jsgrid-cell jsgrid-control-field jsgrid-align-center"
+                                                    style="width: 15%;">
+                                                    <a href="{% url 'admin_editorder' pk=order.id %}"><input
+                                                            class="jsgrid-button jsgrid-edit-button"
+                                                            type="button" title="Edit"></a>
+
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+
+                                {% if paginator.num_pages >= 2 %}
+                                    <nav aria-label="Page navigation">
+                                        <ul class="pagination justify-content-center"
+                                            style="display: block;margin-top: 30px;margin-bottom: 10px">
+
+                                            <li class="page-item mr-2 ml-2{% if not page_obj.has_previous %}disabled{% endif %}">
+                                                <a class="page-link-admin page-link-prev" href="?page=
+
+
+
+                                                        {% if page_obj.has_previous %}{{ page_obj.previous_page_number }}{% endif %}"
+                                                   aria-label="Previous" tabindex="-1"
+                                                   aria-disabled="true">
+
+
+                                                    <span aria-hidden="true">
+                                                        <span class="ml-3">
+
+                                                                قبلی
+                                                        </span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            {% for pagenumber in paginator.page_range %}
+                                                <li class="page-item {% if page_obj.number == pagenumber %}active disabled{% endif %}"
+                                                    aria-current="page"><a class="page-link"
+                                                                           href="?page={{ pagenumber }}">{{ pagenumber }}</a>
+                                                </li>
+                                            {% endfor %}
+
+                                            <li class="page-item-total">از {{ paginator.num_pages }}</li>
+                                            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                                                <a class="page-link-admin page-link-next"
+                                                   href="?page=
+                                                   {% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}"
+                                                   aria-label="Next">
+                                                    بعدی <span aria-hidden="true"><i
+                                                        class="icon-long-arrow-left"></i></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+
+                                {% endif %}
+                        </div>
+                    </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_references %}
+    <!-- latest jquery-->
+    <script src="/static/admin_panel/js/jquery-3.3.1.min.js"></script>
+
+    <!-- Bootstrap js-->
+    <script src="/static/admin_panel/js/bootstrap.bundle.min.js"></script>
+
+    <!-- feather icon js-->
+    <script src="/static/admin_panel/js/icons/feather-icon/feather.min.js"></script>
+    <script src="/static/admin_panel/js/icons/feather-icon/feather-icon.js"></script>
+
+    <!-- Sidebar jquery-->
+    <script src="/static/admin_panel/js/sidebar-menu.js"></script>
+
+    <!--dropzone js-->
+    <script src="/static/admin_panel/js/dropzone/dropzone.js"></script>
+    <script src="/static/admin_panel/js/dropzone/dropzone-script.js"></script>
+
+    <!--ckeditor js-->
+    <script src="/static/admin_panel/js/editor/ckeditor/ckeditor.js"></script>
+    <script src="/static/admin_panel/js/editor/ckeditor/styles.js"></script>
+    <script src="/static/admin_panel/js/editor/ckeditor/adapters/jquery.js"></script>
+    <script src="/static/admin_panel/js/editor/ckeditor/ckeditor.custom.js"></script>
+
+
+    <!-- lazyload js-->
+    <script src="/static/admin_panel/js/lazysizes.min.js"></script>
+
+    <!--right sidebar js-->
+    <script src="/static/admin_panel/js/chat-menu.js"></script>
+
+    <!--script admin-->
+    <script src="/static/admin_panel/js/admin-script.js"></script>
+{% endblock %}

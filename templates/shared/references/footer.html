@@ -1,0 +1,89 @@
+<!-- JS Global Compulsory -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/static/js/plugins/popper.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<!-- JS Implementing Plugins -->
+<script src="/static/js/plugins/apexcharts.min.js"></script>
+<script src="/static/js/plugins/jquery.knob.js"></script>
+<script src="/static/js/plugins/jquery.throttle.js"></script>
+<script src="/static/js/plugins/jquery.classycountdown.min.js"></script>
+<script src="/static/js/plugins/jquery.nicescroll.min.js"></script>
+<script src="/static/js/plugins/nouislider.min.js"></script>
+<script src="/static/js/plugins/select2.full.min.js"></script>
+<script src="/static/js/plugins/swiper.min.js"></script>
+<script src="/static/js/plugins/ResizeSensor.min.js"></script>
+<script src="/static/js/plugins/theia-sticky-sidebar.min.js"></script>
+<script src="/static/js/plugins/zoomsl.min.js"></script>
+<script src="/static/js/plugins/wNumb.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<!-- JS Template -->
+<script src="/static/js/theme.js"></script>
+<script src="/static/js/main.js"></script>
+<!-- Here goes your custom.js -->
+<script src="/static/js/basket.js"></script>
+<script src="/static/js/userpanel.js"></script>
+<script src="/static/js/form.js"></script>
+<script src="/static/js/product_search.js"></script>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#countdown--offer-slider').ClassyCountdown({
+            theme: "black",
+            end: $.now() + 645600,
+            labels: false,
+        });
+    });
+</script>
+
+{% for msg in messages %}
+    {% if 'success' in msg.extra_tags %}
+
+        <script>
+
+            toastr.success('{{msg}}', '', {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-left",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            });
+        </script>
+    {% elif 'error' in msg.extra_tags %}
+        <script>
+
+            toastr.error('{{msg}}', '', {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-left",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            });
+        </script>
+    {% endif %}
+
+{% endfor %}
+
+

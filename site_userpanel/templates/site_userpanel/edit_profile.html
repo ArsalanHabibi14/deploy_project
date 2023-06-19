@@ -1,0 +1,210 @@
+{% extends 'shared/base.html' %}
+{% load render_partial %}
+
+{% load poll_extras %}
+{% load thumbnail %}
+{% block title %}
+تغییر مشخصات کاربری | {{ setting.site_name }}
+{% endblock %}
+{% block content %}
+    <main class="page-content">
+        <div class="container">
+            <div class="row mb-5">
+                {% render_partial 'site_userpanel.views.userpanel_menu_component' %}
+                <div class="col-lg-9 col-md-8">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="section-title mb-2">
+                                اطلاعات حساب
+                            </div>
+                            <section class="shadow-around p-3">
+                                <form enctype="multipart/form-data" action="{% url 'userpanel_edit_profile' %}"
+                                      method="post">
+                                    {% csrf_token %}
+
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-5">
+                                            <div class="text-sm text-muted mb-3">
+                                                تصویر پروفایل :
+                                                <img
+                                                        src="{{ current_user.avatar.url }} "
+                                                        style="width: 50px;border-radius: 50%">
+                                            </div>
+
+                                            <div class="text-dark font-weight-bold">
+                                                <div class="form-element-row mb-0">
+                                                    <div class="col-lg-12">
+
+                                                        {{ form.avatar }}
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 mb-5">
+                                            <div class="text-sm text-muted mb-3">نام :</div>
+                                            <div class="text-dark font-weight-bold">
+                                                <div class="form-element-row mb-0">
+                                                    {{ form.first_name }}
+                                                    {{ form.first_name.errors }}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mb-5">
+                                            <div class="text-sm text-muted mb-3">نام خانوادگی:</div>
+                                            <div class="text-dark font-weight-bold">
+                                                <div class="form-element-row mb-0">
+                                                    {{ form.last_name }}
+                                                    {{ form.last_name.errors }}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mb-5">
+                                            <div class="text-sm text-muted mb-3">کد ملی :</div>
+                                            <div class="text-dark font-weight-bold">
+                                                <div class="form-element-row mb-0">
+                                                    {{ form.national_code }}
+                                                    {{ form.national_code.errors }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mb-5">
+                                            <div class="text-sm text-muted mb-3">تلفن ثابت :</div>
+                                            <div class="text-dark font-weight-bold">
+                                                <div class="form-element-row mb-0">
+                                                    {{ form.home_phone }}
+                                                    {{ form.home_phone.errors }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-element-row text-left">
+                                                <button class="btn-element btn-success-element" type="submit">
+                                                    <i class="fad fa-user-edit"></i>
+                                                    ذخیره تغییرات
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="row">
+                                    {% comment %}phone section{% endcomment %}
+
+                                    <div class="col-lg-6 mb-5" id="set-phone-section">
+
+                                        <div class="text-dark font-weight-bold">
+                                            <div class="form-element-row mb-0">
+
+                                                    <div class="text-sm text-muted mb-3">شماره تلفن همراه :</div>
+                                                <div class="form-element-row mb-0">
+
+                                                    <input type="text" class="input-element"
+                                                           id="userpanel-set-phone-input"
+                                                           {% if current_user.phone %}value="{{ current_user.phone }}"{% endif %}>
+
+                                                    <p class="text-danger" id="userpanel-set-phone-valid"></p>
+                                                    <button class="btn-element btn-success-element my-2" type="submit"
+                                                            id="userpanel-set-phone-button"
+                                                            disabled style="display: none">
+                                                        ارسال کد
+                                                        تایید
+                                                                        <span id="loading-icon-phone">
+
+                                                        </span>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-5" id="confirm-phone-section" style="display: none">
+
+                                        <div class="text-dark font-weight-bold">
+                                            <div class="form-element-row mb-0">
+
+                                                    <div class="text-sm text-muted mb-3">تایید شماره تلفن همراه جدید :
+                                                    </div>
+
+                                                    <input type="text" class="input-element"
+                                                           id="userpanel-confirm-phone-input">
+                                                    <p class="text-danger" id="userpanel-confirm-phone-valid"></p>
+                                                    <button class="btn-element btn-success-element  my-2" type="submit"
+                                                            id="userpanel-confirm-phone-button">
+                                                        تایید
+                                                                        <span id="loading-icon-phone">
+
+                                                        </span>
+                                                    </button>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% comment %}phone section{% endcomment %}
+                                    {% comment %}email section{% endcomment %}
+
+                                    <div class="col-lg-6 mb-5" id="set-email-section">
+
+                                        <div class="text-dark font-weight-bold">
+                                            <div class="form-element-row mb-0">
+
+                                                    <div class="text-sm text-muted mb-3">آدرس ایمیل  :</div>
+
+                                                    <input type="text" class="input-element"
+                                                           id="userpanel-set-email-input"
+                                                           {% if current_user.email %}value="{{ current_user.email }}"{% endif %}>
+                                                    <p class="text-danger" id="userpanel-set-email-valid"></p>
+                                                    <button class="btn-element btn-success-element  my-2" type="submit"
+                                                            id="userpanel-set-email-button"
+                                                            disabled style="display: none">
+                                                        ارسال کد
+                                                        تایید
+                                                        <span id="loading-icon-email">
+
+                                                        </span>
+                                                    </button>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mb-5" id="confirm-email-section" style="display: none">
+
+                                        <div class="text-dark font-weight-bold">
+                                            <div class="form-element-row mb-0">
+
+                                                    <div class="text-sm text-muted mb-3">تایید آدرس ایمیل جدید :
+                                                    </div>
+
+                                                    <input type="text" class="input-element"
+                                                           id="userpanel-confirm-email-input">
+                                                    <p class="text-danger" id="userpanel-confirm-email-valid"></p>
+                                                    <button class="btn-element btn-success-element  my-2" type="submit"
+                                                            id="userpanel-confirm-email-button">
+                                                        تایید
+                                                                        <span id="loading-icon-email">
+
+                                                        </span>
+                                                    </button>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% comment %}email section{% endcomment %}
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- end Page Content -->
+
+
+{% endblock %}
